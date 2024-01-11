@@ -1,5 +1,20 @@
 extends MultiplayerConnection
 
+## Wether or not the connection should use tls
+@export var use_tls: bool = true
+
+## The url to which the client should connect to
+@export var client_server_url: String = ""
+
+## The port used by the server
+@export var server_port: int = 9080
+
+## The path of the server certificate
+@export var server_cert_path: String = ""
+
+## The path of the server key
+@export var server_key_path: String = ""
+
 # The server for this connection
 var _server: WebSocketMultiplayerPeer = null
 
@@ -28,23 +43,23 @@ func websocket_client_start(url: String) -> bool:
 	return true
 
 
-func websocket_server_start(
-	port: int, use_tls: bool = true, cert_path: String = "", key_path: String = ""
-) -> bool:
+func websocket_server_start() -> bool:
 	_server = WebSocketMultiplayerPeer.new()
 	if use_tls:
 		# Get the tls optiojns
-		var server_tls_options: TLSOptions = server_get_tls_options(cert_path, key_path)
+		var server_tls_options: TLSOptions = server_get_tls_options(
+			server_cert_path, server_key_path
+		)
 		if server_tls_options == null:
 			GodotLogger.error("Failed to load tls options")
 			return false
 
-		var error: int = _server.create_server(port, "*", server_tls_options)
+		var error: int = _server.create_server(server_port, "*", server_tls_options)
 		if error != OK:
 			GodotLogger.error("Failed to create server")
 			return false
 	else:
-		var error: int = _server.create_server(port)
+		var error: int = _server.create_server(server_port)
 		if error != OK:
 			GodotLogger.error("Failed to create server")
 			return false

@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://components/WebsocketMultiplayerConnection/WebsocketMultiplayerConnection.gd" id="1_w8l6e"]
 
-[node name="WebsocketMultiplayerConnection" type="Node2D"]
+[node name="WebsocketMultiplayerConnection" type="Node"]
 script = ExtResource("1_w8l6e")
