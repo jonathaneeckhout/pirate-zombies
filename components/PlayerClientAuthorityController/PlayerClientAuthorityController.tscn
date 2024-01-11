@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c1pe5e8s8bnw8"]
+
+[ext_resource type="Script" path="res://components/PlayerClientAuthorityController/PlayerClientAuthorityController.gd" id="1_wt6wn"]
+
+[node name="PlayerClientAuthorityController" type="Node3D"]
+script = ExtResource("1_wt6wn")
