@@ -2,6 +2,8 @@ extends Node
 
 class_name Map
 
+@export var multiplayer_connection: MultiplayerConnection = null
+
 ## Node grouping all the players
 var players: Node3D = null
 
@@ -19,3 +21,7 @@ func _ready():
 	projectiles = Node3D.new()
 	projectiles.name = "Projectiles"
 	add_child(projectiles)
+
+
+func map_init() -> bool:
+	return true

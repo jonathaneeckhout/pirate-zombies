@@ -17,6 +17,9 @@ signal init_done
 ## The modes a connection can be in
 enum MODE { SERVER, CLIENT }
 
+## A list of the components attached to this component
+var component_list: ComponentList = ComponentList.new()
+
 # The current mode of this instance
 var _mode: MODE = MODE.CLIENT
 
@@ -161,6 +164,21 @@ func is_own_player(player: Player) -> bool:
 
 	# If the player's id matches the id of the connection you know that you're facing your own player node
 	return player.peer_id == multiplayer.get_unique_id()
+
+
+## Get the user by its id
+## To be called on server-side
+func get_user_by_id(id: int) -> User:
+	assert(is_server(), "This function should only be called on the server side")
+
+	return _server_users.get(id)
+
+
+## Checks if a user is logged in by it's id
+func is_user_logged_in(id: int) -> bool:
+	assert(is_server(), "This function should only be called on the server side")
+
+	return _server_users[id].logged_in
 
 
 func _on_server_peer_connected(id: int):

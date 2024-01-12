@@ -2,6 +2,8 @@ extends Node
 
 class_name ClockSynchronizer
 
+const COMPONENT_NAME = "ClockSynchronizer"
+
 const LATENCY_BUFFER_SIZE = 9
 const LATENCY_BUFFER_MID_POINT = int(LATENCY_BUFFER_SIZE / float(2))
 const LATENCY_MINIMUM_THRESHOLD = 20
@@ -26,6 +28,9 @@ var _client_clock_sync_timer: Timer = null
 
 func _ready():
 	_multiplayer_connection = get_parent()
+
+	# Register yourself with your parent
+	_multiplayer_connection.component_list.register_component(COMPONENT_NAME, self)
 
 	# Wait until the multiplayer connection is initialized
 	await _multiplayer_connection.init_done
