@@ -4,7 +4,7 @@ class_name UserAuthenticator
 
 const COMPONENT_NAME = "UserAuthenticator"
 
-signal server_player_logged_in(id: int, username: String)
+signal server_player_logged_in(peer_id: int, username: String)
 
 ## Signal returning whether or not a player successfully authenticated to the server
 signal client_authenticated(response: bool)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://yl02mr7k0u78"]
+[gd_scene load_steps=8 format=3 uid="uid://yl02mr7k0u78"]
 
 [ext_resource type="Script" path="res://scenes/Main/Main.gd" id="1_67vwt"]
 [ext_resource type="PackedScene" uid="uid://bldyf3iyb7r6n" path="res://components/WebsocketMultiplayerConnection/WebsocketMultiplayerConnection.tscn" id="2_2rydi"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bm1tdp13topld" path="res://scenes/ui/WebsocketLoginPanel/WebsocketLoginPanel.tscn" id="3_5jer0"]
 [ext_resource type="PackedScene" uid="uid://fp5jjs341obi" path="res://components/ClockSynchronizer/ClockSynchronizer.tscn" id="3_nvv5i"]
 [ext_resource type="PackedScene" uid="uid://54dubbwkcos4" path="res://components/UserAuthenticator/UserAuthenticator.tscn" id="5_17m8j"]
+[ext_resource type="PackedScene" uid="uid://ct4m5g4fblvs4" path="res://components/PlayerSpawnSynchronizer/PlayerSpawnSynchronizer.tscn" id="6_kt0y4"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_67vwt")
@@ -16,6 +17,9 @@ map_scene = ExtResource("2_rnc88")
 [node name="ClockSynchronizer" parent="WebsocketMultiplayerConnection" instance=ExtResource("3_nvv5i")]
 
 [node name="UserAuthenticator" parent="WebsocketMultiplayerConnection" instance=ExtResource("5_17m8j")]
+
+[node name="PlayerSpawnSynchronizer" parent="WebsocketMultiplayerConnection" node_paths=PackedStringArray("user_authenticator") instance=ExtResource("6_kt0y4")]
+user_authenticator = NodePath("../UserAuthenticator")
 
 [node name="UI" type="CanvasLayer" parent="."]
 

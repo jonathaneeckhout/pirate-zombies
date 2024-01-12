@@ -43,6 +43,7 @@ func _start_server(server_port: int, server_bind_address: String):
 	# Add the map
 	_map = map_scene.instantiate()
 	_map.name = "Map"
+	_map.multiplayer_connection = _websocket_multiplayer_connection
 	add_child(_map)
 
 	# Init the map
@@ -103,6 +104,7 @@ func _start_client(server_address: String, username: String, password: String):
 	# Add the map
 	_map = map_scene.instantiate()
 	_map.name = "Map"
+	_map.multiplayer_connection = _websocket_multiplayer_connection
 	add_child(_map)
 
 	# Init the map
