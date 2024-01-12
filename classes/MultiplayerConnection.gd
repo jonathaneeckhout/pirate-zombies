@@ -5,8 +5,20 @@ class_name MultiplayerConnection
 ## Signal indicating if a client connected or not
 signal client_connected(connected: bool)
 
+## The physics ticks rate for the client
+@export var client_physics_ticks_per_second: int = 60
+
+## The physics ticks rate for the server
+@export var server_physics_ticks_per_second: int = 10
+
 ## Time of the delay between clock sync calls on the client side
 @export var client_clock_sync_time: float = 0.5
+
+## The prefix used for every log line on the client
+@export var client_logging_prefix: String = "Client:"
+
+## The prefix used for every log line on the client
+@export var server_logging_prefix: String = "Server:"
 
 ## The modes a connection can be in
 enum MODE { SERVER, CLIENT }
@@ -27,9 +39,12 @@ var _client_clock_sync_timer: Timer = null
 var _server_users: Dictionary = {}
 
 
-func _init_common() -> bool:
+func _init_common(fps: int) -> bool:
 	# Set the current multiplayer's api path to this path to optimize multiplayer packets
 	multiplayer.object_configuration_add(null, get_path())
+
+	GodotLogger.info("Setting the game's physics ticks per second to %d" % fps)
+	Engine.set_physics_ticks_per_second(fps)
 
 	clock_rpc = ClockRPC.new()
 	# This short name is done to optimization the network traffic
@@ -46,7 +61,10 @@ func client_init() -> bool:
 
 	_mode = MODE.CLIENT
 
-	if not _init_common():
+	GodotLogger._prefix = client_logging_prefix
+	GodotLogger.info("Running game as client instance")
+
+	if not _init_common(client_physics_ticks_per_second):
 		GodotLogger.error("Failed to init common connection part")
 		return false
 
@@ -89,7 +107,10 @@ func _client_cleanup():
 func init_server() -> bool:
 	_mode = MODE.SERVER
 
-	if not _init_common():
+	GodotLogger._prefix = server_logging_prefix
+	GodotLogger.info("Running game as server instance")
+
+	if not _init_common(server_physics_ticks_per_second):
 		GodotLogger.error("Failed to init common connection part")
 		return false
 

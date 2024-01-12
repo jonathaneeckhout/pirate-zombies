@@ -1,10 +1,10 @@
 extends MultiplayerConnection
 
 ## Wether or not the connection should use tls
-@export var use_tls: bool = true
+@export var use_tls: bool = false
 
 ## The url to which the client should connect to
-@export var client_server_url: String = ""
+@export var client_server_url: String = "ws://localhost:9080"
 
 ## The port used by the server
 @export var server_port: int = 9080
