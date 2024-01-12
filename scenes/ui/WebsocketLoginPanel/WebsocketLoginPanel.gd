@@ -106,4 +106,4 @@ func _on_run_as_server_button_pressed():
 
 
 func _on_run_as_client_button_pressed():
-	run_as_client.emit(%ServerAddress.text, %Username.text, %Password.text)
+	run_as_client.emit(%ServerAddress.text, get_username(), get_password())
