@@ -1,5 +1,7 @@
 extends Control
 
+class_name WebsocketLoginPanel
+
 ## Signal to indicate that the current instance should run as a client
 signal run_as_server(server_port: int, server_bind_address: String)
 

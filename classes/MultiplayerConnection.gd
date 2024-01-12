@@ -5,20 +5,14 @@ class_name MultiplayerConnection
 ## Signal indicating if a client connected or not
 signal client_connected(connected: bool)
 
+## Signal to indicate that the initialization is done. Used for the child components
+signal init_done
+
 ## The physics ticks rate for the client
 @export var client_physics_ticks_per_second: int = 60
 
 ## The physics ticks rate for the server
 @export var server_physics_ticks_per_second: int = 10
-
-## Time of the delay between clock sync calls on the client side
-@export var client_clock_sync_time: float = 0.5
-
-## The prefix used for every log line on the client
-@export var client_logging_prefix: String = "Client:"
-
-## The prefix used for every log line on the client
-@export var server_logging_prefix: String = "Server:"
 
 ## The modes a connection can be in
 enum MODE { SERVER, CLIENT }
@@ -26,14 +20,8 @@ enum MODE { SERVER, CLIENT }
 # The current mode of this instance
 var _mode: MODE = MODE.CLIENT
 
-## Node that groups rpcs used for the clock syncing
-var clock_rpc: ClockRPC = null
-
 # Boolean indicating if the client already called the init
 var _client_init_done: bool = false
-
-# Timer used to call the clock syncs
-var _client_clock_sync_timer: Timer = null
 
 # Dict containing all user connected to the server
 var _server_users: Dictionary = {}
@@ -46,41 +34,32 @@ func _init_common(fps: int) -> bool:
 	GodotLogger.info("Setting the game's physics ticks per second to %d" % fps)
 	Engine.set_physics_ticks_per_second(fps)
 
-	clock_rpc = ClockRPC.new()
-	# This short name is done to optimization the network traffic
-	clock_rpc.name = "C"
-	add_child(clock_rpc)
-
 	return true
 
 
-func client_init() -> bool:
+func _client_init() -> bool:
 	if _client_init_done:
 		GodotLogger.info("Client init already done, no need to do it again")
 		return true
 
 	_mode = MODE.CLIENT
 
-	GodotLogger._prefix = client_logging_prefix
 	GodotLogger.info("Running game as client instance")
 
 	if not _init_common(client_physics_ticks_per_second):
 		GodotLogger.error("Failed to init common connection part")
 		return false
 
-	_client_clock_sync_timer = Timer.new()
-	_client_clock_sync_timer.name = "ClientClockSyncTimer"
-	_client_clock_sync_timer.wait_time = client_clock_sync_time
-	_client_clock_sync_timer.timeout.connect(_on_client_clock_sync_timer_timeout)
-	add_child(_client_clock_sync_timer)
-
 	_client_init_done = true
+
+	# Let the others know you're done initializing
+	init_done.emit()
 
 	return true
 
 
 ## Client start function to be called after the inherited class client start
-func client_start():
+func _client_start():
 	if not multiplayer.connected_to_server.is_connected(_on_client_connection_succeeded):
 		multiplayer.connected_to_server.connect(_on_client_connection_succeeded)
 
@@ -104,20 +83,22 @@ func _client_cleanup():
 		multiplayer.server_disconnected.disconnect(_on_client_server_disconnected)
 
 
-func init_server() -> bool:
+func _server_init() -> bool:
 	_mode = MODE.SERVER
 
-	GodotLogger._prefix = server_logging_prefix
 	GodotLogger.info("Running game as server instance")
 
 	if not _init_common(server_physics_ticks_per_second):
 		GodotLogger.error("Failed to init common connection part")
 		return false
 
+	# Let the others know you're done initializing
+	init_done.emit()
+
 	return true
 
 
-func server_start():
+func _server_start():
 	if not multiplayer.peer_connected.is_connected(_on_server_peer_connected):
 		multiplayer.peer_connected.connect(_on_server_peer_connected)
 
@@ -164,17 +145,6 @@ func server_get_tls_options(cert_path: String, key_path: String) -> TLSOptions:
 	return TLSOptions.server(key, cert)
 
 
-func _start_sync_clock():
-	GodotLogger.info("Starting sync clock")
-	clock_rpc.fetch_server_time.rpc_id(1, Time.get_unix_time_from_system())
-	_client_clock_sync_timer.start()
-
-
-func _stop_sync_clock():
-	GodotLogger.info("Stopping sync clock")
-	_client_clock_sync_timer.stop()
-
-
 ## Check if the current instance is running as server or client
 func is_server() -> bool:
 	return _mode == MODE.SERVER
@@ -209,8 +179,6 @@ func _on_client_connection_succeeded():
 	GodotLogger.info("Connection succeeded")
 	client_connected.emit(true)
 
-	_start_sync_clock()
-
 
 func _on_client_connection_failed():
 	GodotLogger.warn("Connection failed")
@@ -223,15 +191,7 @@ func _on_client_server_disconnected():
 	GodotLogger.info("Server disconnected")
 	client_connected.emit(false)
 
-	_stop_sync_clock()
-
 	_client_cleanup()
-
-
-func _on_client_clock_sync_timer_timeout():
-	# If the connection is still up, call the get latency rpc
-	if multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
-		clock_rpc.get_latency.rpc_id(1, Time.get_unix_time_from_system())
 
 
 class User:
