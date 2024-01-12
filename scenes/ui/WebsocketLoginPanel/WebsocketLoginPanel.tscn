@@ -1,0 +1,92 @@
+[gd_scene load_steps=2 format=3 uid="uid://bm1tdp13topld"]
+
+[ext_resource type="Script" path="res://scenes/ui/WebsocketLoginPanel/WebsocketLoginPanel.gd" id="1_10dl1"]
+
+[node name="WebsocketLoginPanel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_10dl1")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -161.0
+offset_right = 256.0
+offset_bottom = 161.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="ServerVBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ServerLabel" type="Label" parent="PanelContainer/VBoxContainer/ServerVBoxContainer"]
+layout_mode = 2
+text = "Server Information:"
+horizontal_alignment = 1
+
+[node name="ServerPort" type="LineEdit" parent="PanelContainer/VBoxContainer/ServerVBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Server Port"
+alignment = 1
+
+[node name="ServerBindAddress" type="LineEdit" parent="PanelContainer/VBoxContainer/ServerVBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Server Bind Address"
+alignment = 1
+
+[node name="RunAsServerButton" type="Button" parent="PanelContainer/VBoxContainer/ServerVBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Press to Host Server"
+
+[node name="ClientVBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ClientLabel" type="Label" parent="PanelContainer/VBoxContainer/ClientVBoxContainer"]
+layout_mode = 2
+text = "Client Information:"
+horizontal_alignment = 1
+
+[node name="ServerAddress" type="LineEdit" parent="PanelContainer/VBoxContainer/ClientVBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Server Address"
+alignment = 1
+
+[node name="Username" type="LineEdit" parent="PanelContainer/VBoxContainer/ClientVBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Username"
+alignment = 1
+
+[node name="Password" type="LineEdit" parent="PanelContainer/VBoxContainer/ClientVBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Password"
+alignment = 1
+secret = true
+
+[node name="RunAsClientButton" type="Button" parent="PanelContainer/VBoxContainer/ClientVBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Press to Login to Server"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer/ClientVBoxContainer"]
+layout_mode = 2
+text = "Leave the username empty generate a random name"
+fit_content = true

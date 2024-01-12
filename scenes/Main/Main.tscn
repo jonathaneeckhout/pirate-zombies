@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://yl02mr7k0u78"]
+
+[ext_resource type="Script" path="res://scenes/Main/Main.gd" id="1_67vwt"]
+[ext_resource type="PackedScene" uid="uid://bldyf3iyb7r6n" path="res://components/WebsocketMultiplayerConnection/WebsocketMultiplayerConnection.tscn" id="2_2rydi"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_67vwt")
+
+[node name="WebsocketMultiplayerConnection" parent="." instance=ExtResource("2_2rydi")]
+
+[node name="UICanvasLayer" type="CanvasLayer" parent="."]

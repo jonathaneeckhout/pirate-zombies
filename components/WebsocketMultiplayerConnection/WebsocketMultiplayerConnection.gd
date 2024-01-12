@@ -9,6 +9,9 @@ extends MultiplayerConnection
 ## The port used by the server
 @export var server_port: int = 9080
 
+## The address to which the server should bind to
+@export var server_bind_address: String = "*"
+
 ## The path of the server certificate
 @export var server_cert_path: String = ""
 
@@ -54,12 +57,12 @@ func websocket_server_start() -> bool:
 			GodotLogger.error("Failed to load tls options")
 			return false
 
-		var error: int = _server.create_server(server_port, "*", server_tls_options)
+		var error: int = _server.create_server(server_port, server_bind_address, server_tls_options)
 		if error != OK:
 			GodotLogger.error("Failed to create server")
 			return false
 	else:
-		var error: int = _server.create_server(server_port)
+		var error: int = _server.create_server(server_port, server_bind_address)
 		if error != OK:
 			GodotLogger.error("Failed to create server")
 			return false
