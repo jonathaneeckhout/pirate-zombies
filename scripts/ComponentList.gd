@@ -1,4 +1,4 @@
-extends Object
+extends RefCounteds
 
 class_name ComponentList
 

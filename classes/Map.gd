@@ -4,6 +4,9 @@ class_name Map
 
 @export var multiplayer_connection: MultiplayerConnection = null
 
+## The scene used for this map
+@export var player_scene: Resource = null
+
 ## Node grouping all the players
 var players: Node3D = null
 

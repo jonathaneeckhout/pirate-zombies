@@ -1,6 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://b1t5rs8i2yf2c"]
+[gd_scene load_steps=21 format=3 uid="uid://b1t5rs8i2yf2c"]
 
 [ext_resource type="Script" path="res://scenes/maps/Containers/Containers.gd" id="1_jt126"]
+[ext_resource type="PackedScene" uid="uid://bwo30wk4cqauq" path="res://scenes/Player/Player.tscn" id="2_wm8tg"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_x6yuu"]
 size = Vector2(50, 50)
@@ -58,6 +59,7 @@ sky = SubResource("Sky_iw4rc")
 
 [node name="Containers" type="Node3D"]
 script = ExtResource("1_jt126")
+player_scene = ExtResource("2_wm8tg")
 
 [node name="Layout" type="Node3D" parent="."]
 
