@@ -17,6 +17,8 @@ var _player_spawn_synchronizer: PlayerSpawnerSynchronizer = null
 
 
 func _ready():
+	multiplayer_connection.map = self
+
 	# Create the players node
 	players = Node3D.new()
 	players.name = "Players"
@@ -47,6 +49,11 @@ func map_init() -> bool:
 		_player_spawn_synchronizer.client_player_added.connect(_on_client_player_added)
 		_player_spawn_synchronizer.client_player_removed.connect(_on_client_player_removed)
 	return true
+
+
+## Return an player by it's name if it doesn't exist it will return null
+func get_player_by_name(player_name: String) -> Player:
+	return players.get_node_or_null(player_name)
 
 
 func _on_server_player_added(username: String, peer_id: int):

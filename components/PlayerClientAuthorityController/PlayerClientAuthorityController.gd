@@ -53,9 +53,6 @@ func _ready():
 
 	assert(_player.multiplayer_connection != null, "Player's multiplayer connection is null")
 
-	# Register the component with the parent player.
-	_player.multiplayer_connection.component_list.register_component(COMPONENT_NAME, self)
-
 	# Get the ClockSynchronizer component.
 	_clock_synchronizer = _player.multiplayer_connection.component_list.get_component(
 		ClockSynchronizer.COMPONENT_NAME

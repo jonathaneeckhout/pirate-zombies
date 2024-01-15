@@ -23,6 +23,8 @@ var component_list: ComponentList = ComponentList.new()
 ## The client's player character
 var client_player: Player = null
 
+var map: Map = null
+
 # The current mode of this instance
 var _mode: MODE = MODE.CLIENT
 

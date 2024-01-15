@@ -10,7 +10,6 @@ script = ExtResource("1_ypf0u")
 
 [node name="NetworkViewArea" type="Area3D" parent="."]
 collision_layer = 0
-collision_mask = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NetworkViewArea"]
 shape = SubResource("SphereShape3D_wev8v")
