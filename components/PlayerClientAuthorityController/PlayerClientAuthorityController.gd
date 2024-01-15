@@ -40,6 +40,8 @@ var _player: Player = null
 # Reference to the ClockSynchronizer component for timestamp synchronization.
 var _clock_synchronizer: ClockSynchronizer = null
 
+var _player_client_authority_controller_rpc: PlayerClientAuthorityControllerRPC = null
+
 # The timestamp of the last received sync message from the server.
 var _last_sync_timestamp: float = 0.0
 
@@ -60,6 +62,18 @@ func _ready():
 	)
 
 	assert(_clock_synchronizer != null, "Failed to get ClockSynchronizer component")
+
+	_player_client_authority_controller_rpc = (
+		_player
+		. multiplayer_connection
+		. component_list
+		. get_component(PlayerClientAuthorityControllerRPC.COMPONENT_NAME)
+	)
+
+	assert(
+		_player_client_authority_controller_rpc != null,
+		"Failed to get PlayerClientAuthorityControllerRPC component"
+	)
 
 	# Server-side code.
 	if _player.multiplayer_connection.is_server():
@@ -125,8 +139,7 @@ func _physics_process(delta):
 	_player.move_and_slide()
 
 	# Sync the position to the server.
-	_sync_position.rpc_id(
-		1,
+	_player_client_authority_controller_rpc.sync_position(
 		_clock_synchronizer.client_clock,
 		_player.position,
 		_player.rotation.y,
@@ -136,7 +149,7 @@ func _physics_process(delta):
 
 # Stores the latest received sync information for this entity.
 # This information is later used to smoothly interpolate or extrapolate the position of the entity.
-func _server_sync_position(timestamp: float, pos: Vector3, rot: float, head: float):
+func server_sync_position(timestamp: float, pos: Vector3, rot: float, head: float):
 	# Ignore older syncs.
 	if timestamp < _last_sync_timestamp:
 		return
@@ -147,23 +160,3 @@ func _server_sync_position(timestamp: float, pos: Vector3, rot: float, head: flo
 	_player.position = pos
 	_player.rotation.y = rot
 	_player.head.rotation.x = head
-
-
-# RPC function to sync the position from the client to the server.
-@rpc("call_remote", "any_peer", "unreliable")
-func _sync_position(t: float, p: Vector3, r: float, h: float):
-	assert(_player.multiplayer_connection.is_server(), "This call can only run on the server")
-
-	var id = multiplayer.get_remote_sender_id()
-
-	var user: MultiplayerConnection.User = _player.multiplayer_connection.get_user_by_id(id)
-	if user == null:
-		return
-
-	if not user.logged_in:
-		return
-
-	if user.player == null:
-		return
-
-	_server_sync_position(t, p, r, h)

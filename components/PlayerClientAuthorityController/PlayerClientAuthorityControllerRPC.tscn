@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://3ejd80p22vt0"]
+
+[ext_resource type="Script" path="res://components/PlayerClientAuthorityController/PlayerClientAuthorityControllerRPC.gd" id="1_xbddm"]
+
+[node name="PlayerClientAuthorityControllerRpc" type="Node"]
+script = ExtResource("1_xbddm")

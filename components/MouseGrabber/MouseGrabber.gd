@@ -1,6 +1,8 @@
 # This script extends Node3D, serving as a component to control mouse input.
 extends Node3D
 
+class_name MouseGrabber
+
 # Exported variable to set the key for grabbing and releasing the mouse.
 @export var grab_mouse_key: String = "grab_mouse"
 
