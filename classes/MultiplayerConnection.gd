@@ -20,6 +20,9 @@ enum MODE { SERVER, CLIENT }
 ## A list of the components attached to this component
 var component_list: ComponentList = ComponentList.new()
 
+## The client's player character
+var client_player: Player = null
+
 # The current mode of this instance
 var _mode: MODE = MODE.CLIENT
 

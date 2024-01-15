@@ -13,6 +13,8 @@ var players: Node3D = null
 ## Node grouping all the projectiles
 var projectiles: Node3D = null
 
+var _player_spawn_synchronizer: PlayerSpawnerSynchronizer = null
+
 
 func _ready():
 	# Create the players node
@@ -27,26 +29,23 @@ func _ready():
 
 
 func map_init() -> bool:
+	# Common code
+	_player_spawn_synchronizer = (multiplayer_connection.component_list.get_component(
+		PlayerSpawnerSynchronizer.COMPONENT_NAME
+	))
+
+	assert(_player_spawn_synchronizer != null, "Failed to get PlayerSpawnerSynchronizer component")
+
 	# Server-side logic
 	if multiplayer_connection.is_server():
-		var player_spawn_synchronizer: PlayerSpawnerSynchronizer = (
-			multiplayer_connection
-			. component_list
-			. get_component(PlayerSpawnerSynchronizer.COMPONENT_NAME)
-		)
+		_player_spawn_synchronizer.server_player_added.connect(_on_server_player_added)
+		_player_spawn_synchronizer.server_player_removed.connect(_on_server_player_removed)
 
-		assert(
-			player_spawn_synchronizer != null, "Failed to get PlayerSpawnerSynchronizer component"
-		)
-
-		player_spawn_synchronizer.server_player_added.connect(_on_server_player_added)
-		player_spawn_synchronizer.server_player_removed.connect(_on_server_player_removed)
-
-	# # Client-side logic
-	# else:
-	# 	# Listen to the signal for your player to be added
-	# 	Connection.player_rpc.client_player_added.connect(_on_client_player_added)
-
+	# Client-side logic
+	else:
+		# Listen to the signal for your player to be added
+		_player_spawn_synchronizer.client_player_added.connect(_on_client_player_added)
+		_player_spawn_synchronizer.client_player_removed.connect(_on_client_player_removed)
 	return true
 
 
@@ -69,8 +68,43 @@ func _on_server_player_added(username: String, peer_id: int):
 
 	user.player = new_player
 
+	_player_spawn_synchronizer.add_client_player(
+		new_player.peer_id, new_player.name, new_player.position, true
+	)
+
 
 func _on_server_player_removed(username: String):
+	# Try to get the player with the given username
+	var player: Player = players.get_node_or_null(username)
+	if player == null:
+		return
+
+	GodotLogger.info("Removing player=[%s] from the map" % username)
+
+	_player_spawn_synchronizer.remove_client_player(player.peer_id, player.name)
+
+	# Make sure this player isn't updated anymore
+	player.set_physics_process(false)
+
+	# Queue the player for deletions
+	player.queue_free()
+
+
+func _on_client_player_added(username: String, pos: Vector3, own_player: bool):
+	GodotLogger.info("Adding player=[%s] to the map" % username)
+
+	var new_player: Player = player_scene.instantiate()
+	new_player.name = username
+	new_player.position = pos
+
+	if own_player:
+		multiplayer_connection.client_player = new_player
+
+	# Add the player to the world
+	players.add_child(new_player)
+
+
+func _on_client_player_removed(username: String):
 	# Try to get the player with the given username
 	var player: Player = players.get_node_or_null(username)
 	if player == null:

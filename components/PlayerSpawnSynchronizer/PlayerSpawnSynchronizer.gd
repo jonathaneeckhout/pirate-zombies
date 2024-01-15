@@ -11,10 +11,10 @@ signal server_player_added(username: String, peer_id: int)
 signal server_player_removed(username: String)
 
 ## Signal indicating that a player needs to be added to the client instance
-signal client_player_added(player_name: String, pos: Vector3, own_player: bool)
+signal client_player_added(username: String, pos: Vector3, own_player: bool)
 
 ## Signal indicating that a player needs to be removed from the client instance
-signal client_player_removed(player_name: String)
+signal client_player_removed(username: String)
 
 @export var user_authenticator: UserAuthenticator = null
 
@@ -40,6 +40,20 @@ func _ready():
 		pass
 
 
+func add_client_player(peer_id: int, username: String, pos: Vector3, own_player: bool):
+	if not peer_id in multiplayer.get_peers():
+		return
+
+	_add_client_player.rpc_id(peer_id, username, pos, own_player)
+
+
+func remove_client_player(peer_id: int, username: String):
+	if not peer_id in multiplayer.get_peers():
+		return
+
+	_remove_client_player.rpc_id(peer_id, username)
+
+
 func _on_server_player_logged_in(peer_id: int, username: String):
 	GodotLogger.info("User=[%s], should be added to the server instance" % username)
 	server_player_added.emit(username, peer_id)
@@ -55,3 +69,13 @@ func _on_server_peer_disconnected(id: int):
 
 	# Broadcast the signal to remove this user
 	server_player_removed.emit(user.username)
+
+
+@rpc("call_remote", "authority", "reliable")
+func _add_client_player(username: String, pos: Vector3, own_player: bool):
+	client_player_added.emit(username, pos, own_player)
+
+
+@rpc("call_remote", "authority", "reliable")
+func _remove_client_player(username: String):
+	client_player_removed.emit(username)
