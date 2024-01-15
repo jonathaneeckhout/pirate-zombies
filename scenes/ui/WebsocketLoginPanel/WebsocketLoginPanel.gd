@@ -88,9 +88,9 @@ func _fill_in_default_values():
 func get_username() -> String:
 	var username: String = %Username.text
 
-	# Generate a name if the username is empty
+	# Pick a random name merged with a timestamp if the username is empty
 	if username.is_empty():
-		username = RANDOM_PLAYER_NAMES.pick_random()
+		username = "%s-%d" % [RANDOM_PLAYER_NAMES.pick_random(), Time.get_unix_time_from_system()]
 
 	return username
 

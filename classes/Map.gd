@@ -42,10 +42,6 @@ func map_init() -> bool:
 		player_spawn_synchronizer.server_player_added.connect(_on_server_player_added)
 		player_spawn_synchronizer.server_player_removed.connect(_on_server_player_removed)
 
-	# 	# Connect to the login signal to know when a new player has joined
-	# 	Connection.player_rpc.server_player_logged_in.connect(_on_server_player_logged_in)
-	# 	multiplayer.peer_disconnected.connect(_on_server_peer_disconnected)
-
 	# # Client-side logic
 	# else:
 	# 	# Listen to the signal for your player to be added
@@ -55,8 +51,35 @@ func map_init() -> bool:
 
 
 func _on_server_player_added(username: String, peer_id: int):
-	pass
+	# Fetch the user from the connection list
+	var user: MultiplayerConnection.User = multiplayer_connection.get_user_by_id(peer_id)
+	if user == null:
+		GodotLogger.warn("Could not find user with id=%d" % peer_id)
+		return
+
+	var new_player: Player = player_scene.instantiate()
+	new_player.name = username
+	new_player.peer_id = peer_id
+	new_player.position.y = 10.0
+
+	GodotLogger.info("Adding player=[%s] with id=[%d] to the map" % [new_player.name, peer_id])
+
+	# Add the player to the world
+	players.add_child(new_player)
+
+	user.player = new_player
 
 
 func _on_server_player_removed(username: String):
-	pass
+	# Try to get the player with the given username
+	var player: Player = players.get_node_or_null(username)
+	if player == null:
+		return
+
+	GodotLogger.info("Removing player=[%s] from the map" % username)
+
+	# Make sure this player isn't updated anymore
+	player.set_physics_process(false)
+
+	# Queue the player for deletions
+	player.queue_free()
