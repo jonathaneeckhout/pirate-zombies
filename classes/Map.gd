@@ -60,6 +60,7 @@ func _on_server_player_added(username: String, peer_id: int):
 	new_player.name = username
 	new_player.peer_id = peer_id
 	new_player.position.y = 10.0
+	new_player.multiplayer_connection = multiplayer_connection
 
 	GodotLogger.info("Adding player=[%s] with id=[%d] to the map" % [new_player.name, peer_id])
 
@@ -96,6 +97,7 @@ func _on_client_player_added(username: String, pos: Vector3, own_player: bool):
 	var new_player: Player = player_scene.instantiate()
 	new_player.name = username
 	new_player.position = pos
+	new_player.multiplayer_connection = multiplayer_connection
 
 	if own_player:
 		multiplayer_connection.client_player = new_player

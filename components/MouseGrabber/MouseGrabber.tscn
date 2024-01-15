@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://fcefhv1c7m1r"]
+
+[ext_resource type="Script" path="res://components/MouseGrabber/MouseGrabber.gd" id="1_kswk7"]
+
+[node name="MouseGrabber" type="Node3D"]
+script = ExtResource("1_kswk7")

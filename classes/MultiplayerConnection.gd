@@ -158,15 +158,7 @@ func is_server() -> bool:
 
 ## Check if the given player is your own player
 func is_own_player(player: Player) -> bool:
-	# You can never be your own player on the server instance
-	if is_server():
-		return false
-
-	if player == null:
-		return false
-
-	# If the player's id matches the id of the connection you know that you're facing your own player node
-	return player.peer_id == multiplayer.get_unique_id()
+	return client_player == player
 
 
 ## Get the user by its id

@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwo30wk4cqauq"]
+[gd_scene load_steps=6 format=3 uid="uid://bwo30wk4cqauq"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.gd" id="1_20s56"]
+[ext_resource type="PackedScene" uid="uid://c1pe5e8s8bnw8" path="res://components/PlayerClientAuthorityController/PlayerClientAuthorityController.tscn" id="2_qb1yo"]
+[ext_resource type="PackedScene" uid="uid://fcefhv1c7m1r" path="res://components/MouseGrabber/MouseGrabber.tscn" id="3_rmu7b"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0fyq"]
 
@@ -9,6 +11,10 @@
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_20s56")
 
+[node name="PlayerClientAuthorityController" parent="." instance=ExtResource("2_qb1yo")]
+
+[node name="MouseGrabber" parent="." instance=ExtResource("3_rmu7b")]
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_g0fyq")
@@ -16,3 +22,10 @@ shape = SubResource("CapsuleShape3D_g0fyq")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_cnv0r")
+
+[node name="Head" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+unique_name_in_owner = true
