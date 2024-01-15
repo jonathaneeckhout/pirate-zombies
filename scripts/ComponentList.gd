@@ -1,4 +1,4 @@
-extends RefCounteds
+extends RefCounted
 
 class_name ComponentList
 
