@@ -25,6 +25,8 @@ var _player: Player = null
 # Reference to the NetworkViewSynchronizerRPC component for RPC calls.
 var _network_view_synchronizer_rpc: NetworkViewSynchronizerRPC = null
 
+var _player_spawn_synchronizer: PlayerSpawnerSynchronizer = null
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,6 +43,12 @@ func _ready():
 	assert(
 		_network_view_synchronizer_rpc != null, "Failed to get NetworkViewSynchronizerRPC component"
 	)
+
+	_player_spawn_synchronizer = (_player.multiplayer_connection.component_list.get_component(
+		PlayerSpawnerSynchronizer.COMPONENT_NAME
+	))
+
+	assert(_player_spawn_synchronizer != null, "Failed to get PlayerSpawnerSynchronizer component")
 
 	# Server-side code.
 	if _player.multiplayer_connection.is_server():
@@ -69,10 +77,14 @@ func _ready():
 func client_add_player(player_name: String, pos: Vector3):
 	player_added.emit(player_name, pos)
 
+	_player_spawn_synchronizer.client_player_added.emit(player_name, pos, false)
+
 
 # Client-side function to remove a player from the network view.
 func client_remove_player(player_name: String):
 	player_removed.emit(player_name)
+
+	_player_spawn_synchronizer.client_player_removed.emit(player_name)
 
 
 # Synchronize players currently in view.
