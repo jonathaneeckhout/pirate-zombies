@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cikahkxa75ulc"]
 
-[ext_resource type="Script" path="res://components/NetworkViewSynchronizer/NetworkViewSynchronizerRPC.gd" id="1_boalk"]
+[ext_resource type="Script" path="res://components/player/NetworkViewSynchronizer/NetworkViewSynchronizerRPC.gd" id="1_boalk"]
 
 [node name="NetworkViewSynchronizerRpc" type="Node"]
 script = ExtResource("1_boalk")

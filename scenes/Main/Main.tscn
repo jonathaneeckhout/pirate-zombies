@@ -1,34 +1,34 @@
 [gd_scene load_steps=11 format=3 uid="uid://yl02mr7k0u78"]
 
 [ext_resource type="Script" path="res://scenes/Main/Main.gd" id="1_67vwt"]
-[ext_resource type="PackedScene" uid="uid://bldyf3iyb7r6n" path="res://components/WebsocketMultiplayerConnection/WebsocketMultiplayerConnection.tscn" id="2_2rydi"]
+[ext_resource type="PackedScene" uid="uid://bldyf3iyb7r6n" path="res://components/connection/WebsocketMultiplayerConnection/WebsocketMultiplayerConnection.tscn" id="2_2rydi"]
 [ext_resource type="PackedScene" uid="uid://b1t5rs8i2yf2c" path="res://scenes/maps/Containers/Containers.tscn" id="2_rnc88"]
 [ext_resource type="PackedScene" uid="uid://bm1tdp13topld" path="res://scenes/ui/WebsocketLoginPanel/WebsocketLoginPanel.tscn" id="3_5jer0"]
-[ext_resource type="PackedScene" uid="uid://fp5jjs341obi" path="res://components/ClockSynchronizer/ClockSynchronizer.tscn" id="3_nvv5i"]
-[ext_resource type="PackedScene" uid="uid://54dubbwkcos4" path="res://components/UserAuthenticator/UserAuthenticator.tscn" id="5_17m8j"]
-[ext_resource type="PackedScene" uid="uid://ct4m5g4fblvs4" path="res://components/PlayerSpawnSynchronizer/PlayerSpawnSynchronizer.tscn" id="6_kt0y4"]
-[ext_resource type="PackedScene" uid="uid://3ejd80p22vt0" path="res://components/PlayerClientAuthorityController/PlayerClientAuthorityControllerRPC.tscn" id="7_w75e3"]
-[ext_resource type="PackedScene" uid="uid://cikahkxa75ulc" path="res://components/NetworkViewSynchronizer/NetworkViewSynchronizerRPC.tscn" id="8_e62jj"]
-[ext_resource type="PackedScene" uid="uid://s8h0g10nfeim" path="res://components/PositionSynchronizer/PositionSynchronizerRPC.tscn" id="9_qpopj"]
+[ext_resource type="PackedScene" uid="uid://fp5jjs341obi" path="res://components/connection/ClockSynchronizer/ClockSynchronizer.tscn" id="3_nvv5i"]
+[ext_resource type="PackedScene" uid="uid://54dubbwkcos4" path="res://components/connection/UserAuthenticator/UserAuthenticator.tscn" id="5_17m8j"]
+[ext_resource type="PackedScene" uid="uid://ct4m5g4fblvs4" path="res://components/connection/PlayerSpawnSynchronizer/PlayerSpawnSynchronizer.tscn" id="6_kt0y4"]
+[ext_resource type="PackedScene" uid="uid://3ejd80p22vt0" path="res://components/player/PlayerClientAuthorityController/PlayerClientAuthorityControllerRPC.tscn" id="7_w75e3"]
+[ext_resource type="PackedScene" uid="uid://cikahkxa75ulc" path="res://components/player/NetworkViewSynchronizer/NetworkViewSynchronizerRPC.tscn" id="8_e62jj"]
+[ext_resource type="PackedScene" uid="uid://s8h0g10nfeim" path="res://components/player/PositionSynchronizer/PositionSynchronizerRPC.tscn" id="9_qpopj"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_67vwt")
 map_scene = ExtResource("2_rnc88")
 
-[node name="WebsocketMultiplayerConnection" parent="." instance=ExtResource("2_2rydi")]
+[node name="WMC" parent="." instance=ExtResource("2_2rydi")]
 
-[node name="ClockSynchronizer" parent="WebsocketMultiplayerConnection" instance=ExtResource("3_nvv5i")]
+[node name="CS" parent="WMC" instance=ExtResource("3_nvv5i")]
 
-[node name="UserAuthenticator" parent="WebsocketMultiplayerConnection" instance=ExtResource("5_17m8j")]
+[node name="UA" parent="WMC" instance=ExtResource("5_17m8j")]
 
-[node name="PlayerSpawnSynchronizer" parent="WebsocketMultiplayerConnection" node_paths=PackedStringArray("user_authenticator") instance=ExtResource("6_kt0y4")]
-user_authenticator = NodePath("../UserAuthenticator")
+[node name="PSS" parent="WMC" node_paths=PackedStringArray("user_authenticator") instance=ExtResource("6_kt0y4")]
+user_authenticator = NodePath("../UA")
 
-[node name="PlayerClientAuthorityControllerRpc" parent="WebsocketMultiplayerConnection" instance=ExtResource("7_w75e3")]
+[node name="PCACR" parent="WMC" instance=ExtResource("7_w75e3")]
 
-[node name="NetworkViewSynchronizerRpc" parent="WebsocketMultiplayerConnection" instance=ExtResource("8_e62jj")]
+[node name="NVSR" parent="WMC" instance=ExtResource("8_e62jj")]
 
-[node name="PositionSynchronizerRpc" parent="WebsocketMultiplayerConnection" instance=ExtResource("9_qpopj")]
+[node name="PSR" parent="WMC" instance=ExtResource("9_qpopj")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 

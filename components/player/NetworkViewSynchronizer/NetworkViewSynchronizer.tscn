@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bgq85aqke316l"]
 
-[ext_resource type="Script" path="res://components/NetworkViewSynchronizer/NetworkViewSynchronizer.gd" id="1_ypf0u"]
+[ext_resource type="Script" path="res://components/player/NetworkViewSynchronizer/NetworkViewSynchronizer.gd" id="1_ypf0u"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_wev8v"]
 radius = 75.0

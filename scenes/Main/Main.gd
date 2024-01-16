@@ -10,7 +10,7 @@ extends Node3D
 @export var map_scene: Resource = null
 
 @onready
-var _websocket_multiplayer_connection: WebsocketMultiplayerConnection = $WebsocketMultiplayerConnection
+var _websocket_multiplayer_connection: WebsocketMultiplayerConnection = $WMC
 
 @onready var _websocket_login_panel: WebsocketLoginPanel = $UI/WebsocketLoginPanel
 
