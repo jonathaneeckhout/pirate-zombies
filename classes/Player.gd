@@ -10,10 +10,6 @@ var multiplayer_connection: MultiplayerConnection = null
 # The ID of the multiplayer connection.
 var peer_id: int = 0
 
-var player_client_authority_controller: PlayerClientAuthorityController = null
-
-var network_view_synchronizer: NetworkViewSynchronizer = null
-
 # Reference to the camera and head nodes.
 @onready var camera: Camera3D = %Camera3D
 @onready var head: Node3D = %Head
@@ -23,10 +19,6 @@ var network_view_synchronizer: NetworkViewSynchronizer = null
 func _ready():
 	# Add the player to the "players" group.
 	add_to_group("players")
-
-	player_client_authority_controller = get_node_or_null("PlayerClientAuthorityController")
-
-	network_view_synchronizer = get_node_or_null("NetworkViewSynchronizer")
 
 	# Check if the player is on the server side.
 	if multiplayer_connection.is_server():

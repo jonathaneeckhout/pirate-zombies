@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://g07v0agmwdma"]
+
+[ext_resource type="Script" path="res://components/PositionSynchronizer/PositionSynchronizer.gd" id="1_bii4t"]
+
+[node name="PositionSynchronizer" type="Node3D"]
+script = ExtResource("1_bii4t")

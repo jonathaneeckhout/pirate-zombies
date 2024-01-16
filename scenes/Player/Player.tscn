@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bwo30wk4cqauq"]
+[gd_scene load_steps=8 format=3 uid="uid://bwo30wk4cqauq"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.gd" id="1_20s56"]
 [ext_resource type="PackedScene" uid="uid://c1pe5e8s8bnw8" path="res://components/PlayerClientAuthorityController/PlayerClientAuthorityController.tscn" id="2_qb1yo"]
 [ext_resource type="PackedScene" uid="uid://bgq85aqke316l" path="res://components/NetworkViewSynchronizer/NetworkViewSynchronizer.tscn" id="3_khkji"]
 [ext_resource type="PackedScene" uid="uid://fcefhv1c7m1r" path="res://components/MouseGrabber/MouseGrabber.tscn" id="3_rmu7b"]
+[ext_resource type="PackedScene" uid="uid://g07v0agmwdma" path="res://components/PositionSynchronizer/PositionSynchronizer.tscn" id="4_b38xa"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0fyq"]
 
@@ -15,6 +16,9 @@ script = ExtResource("1_20s56")
 [node name="PlayerClientAuthorityController" parent="." instance=ExtResource("2_qb1yo")]
 
 [node name="NetworkViewSynchronizer" parent="." instance=ExtResource("3_khkji")]
+
+[node name="PositionSynchronizer" parent="." node_paths=PackedStringArray("network_view_synchronizer") instance=ExtResource("4_b38xa")]
+network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 
 [node name="MouseGrabber" parent="." instance=ExtResource("3_rmu7b")]
 
