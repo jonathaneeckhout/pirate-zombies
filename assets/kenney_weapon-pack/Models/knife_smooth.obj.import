@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://0dt24jx0mmr0"
+path="res://.godot/imported/knife_smooth.obj-1090192ea0bdb350288216df315f453c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/knife_smooth.obj-1090192ea0bdb350288216df315f453c.mesh"]
+
+source_file="res://assets/kenney_weapon-pack/Models/knife_smooth.obj"
+dest_files=["res://.godot/imported/knife_smooth.obj-1090192ea0bdb350288216df315f453c.mesh", "res://.godot/imported/knife_smooth.obj-1090192ea0bdb350288216df315f453c.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

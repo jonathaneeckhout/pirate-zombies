@@ -11,7 +11,7 @@ const COMPONENT_NAME = "PlayerClientAuthorityController"
 @export var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 ## Movement speed of the player.
-@export var movement_speed: float = 10.0
+@export var movement_speed: float = 7.0
 
 ## Jump speed of the player.
 @export var jump_speed: float = 5.0
