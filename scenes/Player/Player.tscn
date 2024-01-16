@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bgq85aqke316l" path="res://components/player/NetworkViewSynchronizer/NetworkViewSynchronizer.tscn" id="3_khkji"]
 [ext_resource type="PackedScene" uid="uid://g07v0agmwdma" path="res://components/player/PositionSynchronizer/PositionSynchronizer.tscn" id="4_b38xa"]
 [ext_resource type="PackedScene" uid="uid://fcefhv1c7m1r" path="res://components/player/MouseGrabber/MouseGrabber.tscn" id="5_8h8gt"]
-[ext_resource type="PackedScene" uid="uid://wvnotgehe3jo" path="res://assets/kenney_animated-characters-1/Modified/hands.glb" id="6_q1f5d"]
+[ext_resource type="PackedScene" uid="uid://xo0qlvbfqesd" path="res://scenes/Player/Model/Hands.tscn" id="6_y8f6u"]
 [ext_resource type="PackedScene" uid="uid://ccj2wplepki86" path="res://scenes/Player/Model/Model.tscn" id="7_0a1mn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0fyq"]
@@ -34,7 +34,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 [node name="Camera3D" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
 
-[node name="Hands" parent="Head" instance=ExtResource("6_q1f5d")]
+[node name="Hands" parent="Head" instance=ExtResource("6_y8f6u")]
 unique_name_in_owner = true
 transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0.2, -1.5, 0)
 
