@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://ccj2wplepki86"]
+[gd_scene load_steps=6 format=3 uid="uid://ccj2wplepki86"]
 
 [ext_resource type="PackedScene" uid="uid://2uwjfhnb3nbu" path="res://assets/kenney_animated-characters-1/Modified/model.glb" id="1_u2o2r"]
 [ext_resource type="Texture2D" uid="uid://ctatvl4hjrag6" path="res://assets/kenney_animated-characters-1/Skins/Source/zombieC.svg" id="2_ipfg6"]
+[ext_resource type="Script" path="res://scenes/Player/Model/Model.gd" id="2_y4hca"]
 [ext_resource type="ArrayMesh" uid="uid://hhmq4ue8cbvx" path="res://assets/kenney_weapon-pack/Models/uziLongSilencer.obj" id="3_8t3oa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_trmgo"]
 albedo_texture = ExtResource("2_ipfg6")
 
 [node name="Model" instance=ExtResource("1_u2o2r")]
+script = ExtResource("2_y4hca")
 
 [node name="Skeleton3D" parent="Root" index="0"]
 bones/18/position = Vector3(0.0328955, 1.48426, -0.0445795)

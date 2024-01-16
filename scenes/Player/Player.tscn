@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bwo30wk4cqauq"]
+[gd_scene load_steps=10 format=3 uid="uid://bwo30wk4cqauq"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.gd" id="1_20s56"]
 [ext_resource type="PackedScene" uid="uid://c1pe5e8s8bnw8" path="res://components/player/PlayerClientAuthorityController/PlayerClientAuthorityController.tscn" id="2_qb1yo"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://g07v0agmwdma" path="res://components/player/PositionSynchronizer/PositionSynchronizer.tscn" id="4_b38xa"]
 [ext_resource type="PackedScene" uid="uid://fcefhv1c7m1r" path="res://components/player/MouseGrabber/MouseGrabber.tscn" id="5_8h8gt"]
 [ext_resource type="PackedScene" uid="uid://xo0qlvbfqesd" path="res://scenes/Player/Model/Hands.tscn" id="6_y8f6u"]
+[ext_resource type="PackedScene" uid="uid://c108x7728457h" path="res://components/player/AnimationController/AnimationHandler.tscn" id="6_y10m8"]
 [ext_resource type="PackedScene" uid="uid://ccj2wplepki86" path="res://scenes/Player/Model/Model.tscn" id="7_0a1mn"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0fyq"]
@@ -39,6 +40,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
 unique_name_in_owner = true
 transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, -1.5, 0)
 
-[node name="Model" parent="." instance=ExtResource("7_0a1mn")]
+[node name="Model" parent="." node_paths=PackedStringArray("head") instance=ExtResource("7_0a1mn")]
 unique_name_in_owner = true
 transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, 0, 0)
+head = NodePath("../Head")
+
+[node name="AnimationHandler" parent="." instance=ExtResource("6_y10m8")]
