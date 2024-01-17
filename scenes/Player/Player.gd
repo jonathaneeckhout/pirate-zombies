@@ -7,6 +7,8 @@ var player_client_authority_controller: PlayerClientAuthorityController = $Playe
 
 @onready var position_synchronizer: PositionSynchronizer = $PositionSynchronizer
 
+@onready var stats_synchronizer: StatsSynchronizer = $StatsSynchronizer
+
 @onready var animation_handler: AnimationHandler = $AnimationHandler
 
 
