@@ -44,7 +44,7 @@ bones/55/rotation = Quaternion(-0.624638, 0.368529, 0.164824, 0.668466)
 surface_material_override/0 = SubResource("StandardMaterial3D_trmgo")
 
 [node name="Uzi" type="BoneAttachment3D" parent="Root/Skeleton3D" index="1"]
-transform = Transform3D(0.180629, 0.0273662, -0.983172, -0.978755, 0.103596, -0.176931, 0.0970047, 0.994249, 0.0454861, -0.199564, 2.2351, 0.280396)
+transform = Transform3D(0.18063, 0.0273665, -0.983172, -0.978756, 0.103595, -0.176932, 0.0970035, 0.99425, 0.0454861, -0.199564, 2.23509, 0.280397)
 bone_name = "RightHand"
 bone_idx = 40
 

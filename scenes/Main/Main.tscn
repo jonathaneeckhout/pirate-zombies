@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://yl02mr7k0u78"]
+[gd_scene load_steps=13 format=3 uid="uid://yl02mr7k0u78"]
 
 [ext_resource type="Script" path="res://scenes/Main/Main.gd" id="1_67vwt"]
 [ext_resource type="PackedScene" uid="uid://bldyf3iyb7r6n" path="res://components/connection/WebsocketMultiplayerConnection/WebsocketMultiplayerConnection.tscn" id="2_2rydi"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cikahkxa75ulc" path="res://components/player/NetworkViewSynchronizer/NetworkViewSynchronizerRPC.tscn" id="8_e62jj"]
 [ext_resource type="PackedScene" uid="uid://s8h0g10nfeim" path="res://components/player/PositionSynchronizer/PositionSynchronizerRPC.tscn" id="9_qpopj"]
 [ext_resource type="PackedScene" uid="uid://b6qnexfdo1eg" path="res://components/player/StatsSynchronizer/StatsSynchronizerRPC.tscn" id="10_don5k"]
+[ext_resource type="PackedScene" uid="uid://dvot34q48hapv" path="res://components/player/ShootSynchronizer/ShootSynchronizerRPC.tscn" id="11_sgsxi"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_67vwt")
@@ -32,6 +33,8 @@ user_authenticator = NodePath("../UA")
 [node name="PSR" parent="WMC" instance=ExtResource("9_qpopj")]
 
 [node name="SSR" parent="WMC" instance=ExtResource("10_don5k")]
+
+[node name="SHSR" parent="WMC" instance=ExtResource("11_sgsxi")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 

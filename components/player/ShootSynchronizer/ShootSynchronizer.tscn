@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://v8ye6ytjgkmq"]
+
+[ext_resource type="Script" path="res://components/player/ShootSynchronizer/ShootSynchronizer.gd" id="1_p41f3"]
+
+[node name="ShootSynchronizer" type="Node3D"]
+script = ExtResource("1_p41f3")

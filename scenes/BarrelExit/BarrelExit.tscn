@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmypcs2ymfivv"]
+
+[ext_resource type="Script" path="res://scenes/BarrelExit/BarrelExit.gd" id="1_ygw7w"]
+
+[node name="BarrelExit" type="Marker3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26, 0.9)
+script = ExtResource("1_ygw7w")

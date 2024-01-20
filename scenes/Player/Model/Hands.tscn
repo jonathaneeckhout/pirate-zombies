@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://wvnotgehe3jo" path="res://assets/kenney_animated-characters-1/Modified/hands.glb" id="1_bmxy7"]
 [ext_resource type="Texture2D" uid="uid://ctatvl4hjrag6" path="res://assets/kenney_animated-characters-1/Skins/Source/zombieC.svg" id="2_hia00"]
-[ext_resource type="ArrayMesh" uid="uid://hhmq4ue8cbvx" path="res://assets/kenney_weapon-pack/Models/uziLongSilencer.obj" id="3_3odmt"]
+[ext_resource type="PackedScene" uid="uid://dog6qgrarkxcw" path="res://scenes/guns/Uzi/Uzi.tscn" id="4_r8re3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fclp0"]
 albedo_texture = ExtResource("2_hia00")
@@ -46,7 +46,5 @@ transform = Transform3D(0.180627, 0.0273749, -0.983173, -0.978756, 0.103595, -0.
 bone_name = "RightHand"
 bone_idx = 40
 
-[node name="UziLongSilencer" type="MeshInstance3D" parent="Root/Skeleton3D/Uzi" index="0"]
-transform = Transform3D(2.71893, -14.6846, 1.40417, 0.498771, 1.51842, 14.9145, -14.743, -2.65682, 0.763668, 0.0689347, 0.408741, -0.0762825)
-mesh = ExtResource("3_3odmt")
-skeleton = NodePath("../../../..")
+[node name="Uzi" parent="Root/Skeleton3D/Uzi" index="0" instance=ExtResource("4_r8re3")]
+transform = Transform3D(0.180855, -0.967203, 0.178354, 0.0331896, 0.187243, 0.981753, -0.982949, -0.171636, 0.0659649, 0.0690026, 0.409, -0.0759995)

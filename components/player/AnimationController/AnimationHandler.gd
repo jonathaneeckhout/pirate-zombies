@@ -61,14 +61,15 @@ func _physics_process(_delta):
 	if movement.is_zero_approx():
 		animation_player.play("idle")
 	else:
-		# Determine the animation based on the transformed movement vector.
-		if reverse_direction.x < -0.01:
-			animation_player.play("run-right")
-		elif reverse_direction.x > 0.01:
-			animation_player.play("run-left")
-		else:
-			# If the lateral movement is minimal, check the forward/backward movement.
-			if reverse_direction.z < -0.01:
-				animation_player.play("run-back")
-			else:
-				animation_player.play("run-forward")
+		animation_player.play("run-forward")
+		# # Determine the animation based on the transformed movement vector.
+		# if reverse_direction.x < -0.01:
+		# 	animation_player.play("run-right")
+		# elif reverse_direction.x > 0.01:
+		# 	animation_player.play("run-left")
+		# else:
+		# 	# If the lateral movement is minimal, check the forward/backward movement.
+		# 	if reverse_direction.z < -0.01:
+		# 		animation_player.play("run-back")
+		# 	else:
+		# 		animation_player.play("run-forward")
