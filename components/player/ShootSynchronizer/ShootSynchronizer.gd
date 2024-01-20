@@ -14,7 +14,7 @@ signal shoot
 @export var hit_ray: RayCast3D = null
 
 ## The delay between two shots
-@export var shoot_delay: float = 1.0
+@export var shoot_delay: float = 0.25
 
 ## Key used to trigger the shot
 @export var shoot_key: String = "shoot"
@@ -78,10 +78,8 @@ func _ready():
 func _physics_process(_delta):
 	if _own_player:
 		_handle_own_player()
-
 	else:
-		pass
-		# _check_server_buffer()
+		_check_server_buffer()
 
 
 func _handle_own_player():
@@ -99,20 +97,28 @@ func _handle_own_player():
 	# Start the delay timer
 	_delay_timer.start(shoot_delay)
 
+	_shoot_synchronizer_rpc.sync_shot_to_server(
+		_clock_synchronizer.client_clock, barrel_exit.position, barrel_exit.basis
+	)
+
 	shoot.emit()
 
 	print("pang")
 
-# func _check_server_buffer():
-# 	# Loop backwards
-# 	for i in range(_server_buffer.size() - 1, -1, -1):
-# 		var entry = _server_buffer[i]
-# 		# Check when the projectile should be shot
-# 		if entry["timestamp"] <= Connection.clock:
-# 			fire_projectile(entry["position"], entry["basis"], false)
 
-# 			# Remove the entry
-# 			_server_buffer.remove_at(i)
+func _check_server_buffer():
+	# Loop backwards
+	for i in range(_server_buffer.size() - 1, -1, -1):
+		var entry = _server_buffer[i]
+		# Check when the projectile should be shot
+		if entry["timestamp"] <= _clock_synchronizer.client_clock:
+			# fire_projectile(entry["position"], entry["basis"], false)
+
+			shoot.emit()
+
+			# Remove the entry
+			_server_buffer.remove_at(i)
+
 
 # func fire_projectile(
 # 	projectile_position: Vector3, projectile_transform_basis: Basis, original: bool
@@ -164,39 +170,23 @@ func _handle_own_player():
 # 		# Emit the signal to be used for other components
 # 		single_projectile_shot.emit(projectile)
 
-# # Called on server-side
-# func sync_shot_to_other_players(
-# 	timestamp: float,
-# 	projectile_position: Vector3,
-# 	projectile_transform_basis: Basis,
-# 	right_hand: bool
-# ):
-# 	for other_player in _weapon.player.network_view_synchronizer.players_in_view:
-# 		Connection.sync_rpc.shootsynchronizer_sync_shot.rpc_id(
-# 			other_player.peer_id,
-# 			_weapon.player.name,
-# 			timestamp,
-# 			projectile_position,
-# 			projectile_transform_basis,
-# 			right_hand
-# 		)
 
-# # Called on client-side
-# func sync_shot(
-# 	timestamp: float,
-# 	projectile_position: Vector3,
-# 	projectile_transform_basis: Basis,
-# 	right_hand: bool
-# ):
-# 	if held_in_right_hand != right_hand:
-# 		GodotLogger.warn("Trying to sync the wrong weapon")
-# 		return
+# Called on server-side
+func server_sync_shot_to_other_players(timestamp: float, shot_position: Vector3, shot_basis: Basis):
+	for other_player in _player.network_view_synchronizer.players_in_view:
+		_shoot_synchronizer_rpc.sync_shot_to_player(
+			other_player.peer_id, _player.name, timestamp, shot_position, shot_basis
+		)
 
-# 	_server_buffer.append(
-# 		{
-# 			"timestamp": timestamp,
-# 			"position": projectile_position,
-# 			"basis": projectile_transform_basis,
-# 			"right_hand": right_hand
-# 		}
-# 	)
+
+# Called on client-side
+func client_sync_shot(
+	timestamp: float, projectile_position: Vector3, projectile_transform_basis: Basis
+):
+	_server_buffer.append(
+		{
+			"timestamp": timestamp,
+			"position": projectile_position,
+			"basis": projectile_transform_basis
+		}
+	)

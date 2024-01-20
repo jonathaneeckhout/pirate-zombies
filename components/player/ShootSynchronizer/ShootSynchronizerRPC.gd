@@ -20,12 +20,18 @@ func _ready():
 	await _multiplayer_connection.init_done
 
 
-func sync_start_shooting_to_server(timestamp: float, shot_position: Vector3, shot_basis: Basis):
-	_sync_start_shooting_to_server.rpc_id(1, timestamp, shot_position, shot_basis)
+func sync_shot_to_server(timestamp: float, shot_position: Vector3, shot_basis: Basis):
+	_sync_shot_to_server.rpc_id(1, timestamp, shot_position, shot_basis)
+
+
+func sync_shot_to_player(
+	peer_id: int, player_name: String, timestamp: float, shot_position: Vector3, shot_basis: Basis
+):
+	_sync_shot_to_player.rpc_id(peer_id, player_name, timestamp, shot_position, shot_basis)
 
 
 @rpc("call_remote", "any_peer", "unreliable")
-func _sync_start_shooting_to_server(t: float, p: Vector3, b: Basis):
+func _sync_shot_to_server(t: float, p: Vector3, b: Basis):
 	# Ensure this call is only run on the server.
 	assert(_multiplayer_connection.is_server(), "This call can only run on the server")
 
@@ -47,4 +53,14 @@ func _sync_start_shooting_to_server(t: float, p: Vector3, b: Basis):
 
 	assert(user.player.shoot_synchronizer != null, "shoot_synchronizer is null")
 
-	user.player.shoot_synchronizer.sync_start_shooting_to_other_players(t, p, b)
+	user.player.shoot_synchronizer.server_sync_shot_to_other_players(t, p, b)
+
+
+@rpc("call_remote", "authority", "reliable")
+func _sync_shot_to_player(n: String, t: float, p: Vector3, b: Basis):
+	var player: Player = _multiplayer_connection.map.get_player_by_name(n)
+
+	if player == null:
+		return
+
+	player.shoot_synchronizer.client_sync_shot(t, p, b)

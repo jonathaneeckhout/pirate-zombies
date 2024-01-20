@@ -5,6 +5,8 @@ class_name AnimationHandler
 # The AnimationPlayer node responsible for playing animations.
 @export var animation_player: AnimationPlayer
 
+@export var shoot_synchronizer: ShootSynchronizer = null
+
 # Reference to the parent node (assumed to be a Player node).
 var _player: Player = null
 
@@ -13,6 +15,10 @@ var _is_own_player: bool = false
 
 # The previous position of the player.
 var _prev_position: Vector3 = Vector3.ZERO
+
+var _wait_to_finish: bool = false
+
+var _moving: bool = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -42,6 +48,10 @@ func _ready():
 	if not is_inside_tree():
 		await tree_entered
 
+	animation_player.animation_finished.connect(_on_animation_finished)
+
+	shoot_synchronizer.shoot.connect(_on_shoot)
+
 	# Play the idle animation when the player enters the scene.
 	animation_player.play("idle")
 
@@ -51,25 +61,32 @@ func _physics_process(_delta):
 	# Calculate the movement vector between the current and previous player positions.
 	var movement: Vector3 = _player.position - _prev_position
 
-	# Transform the previous position into the local space of the player.
-	var reverse_direction: Vector3 = _player.to_local(_prev_position)
-
 	# Update the previous position to the current player position.
 	_prev_position = _player.position
 
 	# Check if the player is stationary.
 	if movement.is_zero_approx():
-		animation_player.play("idle")
+		_moving = false
+
+		if not _wait_to_finish:
+			animation_player.play("idle")
 	else:
-		animation_player.play("run-forward")
-		# # Determine the animation based on the transformed movement vector.
-		# if reverse_direction.x < -0.01:
-		# 	animation_player.play("run-right")
-		# elif reverse_direction.x > 0.01:
-		# 	animation_player.play("run-left")
-		# else:
-		# 	# If the lateral movement is minimal, check the forward/backward movement.
-		# 	if reverse_direction.z < -0.01:
-		# 		animation_player.play("run-back")
-		# 	else:
-		# 		animation_player.play("run-forward")
+		_moving = true
+
+		if not _wait_to_finish:
+			animation_player.play("run-forward")
+
+
+func _on_animation_finished(_anim_name: String):
+	_wait_to_finish = false
+
+
+func _on_shoot():
+	_wait_to_finish = true
+
+	animation_player.stop()
+
+	if _moving:
+		animation_player.play("shoot-run")
+	else:
+		animation_player.play("shoot")

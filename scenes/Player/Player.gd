@@ -11,6 +11,8 @@ var player_client_authority_controller: PlayerClientAuthorityController = $Playe
 
 @onready var animation_handler: AnimationHandler = $AnimationHandler
 
+@onready var shoot_synchronizer: ShootSynchronizer = $ShootSynchronizer
+
 
 func _ready():
 	super()

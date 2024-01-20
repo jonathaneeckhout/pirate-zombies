@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bwo30wk4cqauq"]
+[gd_scene load_steps=28 format=3 uid="uid://bwo30wk4cqauq"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.gd" id="1_20s56"]
 [ext_resource type="PackedScene" uid="uid://c1pe5e8s8bnw8" path="res://components/player/PlayerClientAuthorityController/PlayerClientAuthorityController.tscn" id="2_qb1yo"]
@@ -7,9 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://cm6t8uaykc1nd" path="res://components/player/StatsSynchronizer/StatsSynchronizer.tscn" id="5_3shs6"]
 [ext_resource type="PackedScene" uid="uid://fcefhv1c7m1r" path="res://components/player/MouseGrabber/MouseGrabber.tscn" id="5_8h8gt"]
 [ext_resource type="PackedScene" uid="uid://v8ye6ytjgkmq" path="res://components/player/ShootSynchronizer/ShootSynchronizer.tscn" id="6_3lq5d"]
-[ext_resource type="PackedScene" uid="uid://c108x7728457h" path="res://components/player/AnimationController/AnimationHandler.tscn" id="6_y10m8"]
 [ext_resource type="PackedScene" uid="uid://ccj2wplepki86" path="res://scenes/Player/Model/Model.tscn" id="7_0a1mn"]
 [ext_resource type="Texture2D" uid="uid://ctatvl4hjrag6" path="res://assets/kenney_animated-characters-1/Skins/Source/zombieC.svg" id="8_ncejb"]
+[ext_resource type="PackedScene" uid="uid://cmypcs2ymfivv" path="res://scenes/BarrelExit/BarrelExit.tscn" id="8_pk2qo"]
 [ext_resource type="PackedScene" uid="uid://dog6qgrarkxcw" path="res://scenes/guns/Uzi/Uzi.tscn" id="9_8panr"]
 [ext_resource type="Animation" uid="uid://cxpxih6ntosgu" path="res://assets/kenney_animated-characters-1/Animations/hands/idle.res" id="10_smlhv"]
 [ext_resource type="Animation" uid="uid://bnnht4mixmiyt" path="res://assets/kenney_animated-characters-1/Animations/hands/jump.res" id="11_6pa2u"]
@@ -20,6 +20,7 @@
 [ext_resource type="Animation" uid="uid://duonddhya2avi" path="res://assets/kenney_animated-characters-1/Animations/hands/shoot.res" id="16_rsuxf"]
 [ext_resource type="Animation" uid="uid://bumd2h66kwit1" path="res://assets/kenney_animated-characters-1/Animations/hands/shoot-run.res" id="17_01bn3"]
 [ext_resource type="Animation" uid="uid://d3rhv33gmw27" path="res://assets/kenney_animated-characters-1/Animations/hands/t-pose.res" id="18_6crbl"]
+[ext_resource type="PackedScene" uid="uid://c108x7728457h" path="res://components/player/AnimationHandler/AnimationHandler.tscn" id="20_mybn3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0fyq"]
 radius = 0.3
@@ -258,7 +259,8 @@ network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 [node name="StatsSynchronizer" parent="." node_paths=PackedStringArray("network_view_synchronizer") instance=ExtResource("5_3shs6")]
 network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 
-[node name="ShootSynchronizer" parent="." node_paths=PackedStringArray("hit_ray") instance=ExtResource("6_3lq5d")]
+[node name="ShootSynchronizer" parent="." node_paths=PackedStringArray("barrel_exit", "hit_ray") instance=ExtResource("6_3lq5d")]
+barrel_exit = NodePath("../Head/Camera3D/BarrelExit")
 hit_ray = NodePath("../Head/Camera3D/HitRayCast3D")
 
 [node name="MouseGrabber" parent="." instance=ExtResource("5_8h8gt")]
@@ -275,7 +277,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 unique_name_in_owner = true
 
 [node name="HitRayCast3D" type="RayCast3D" parent="Head/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, -8.74228e-07, -1, 0, 20, -4.37114e-08, 0, -0.290222, -1.17148)
+transform = Transform3D(1, 0, 0, 0, -8.74228e-07, -1, 0, 20, -4.37114e-08, 0, -0.3, -1)
+
+[node name="BarrelExit" parent="Head/Camera3D" instance=ExtResource("8_pk2qo")]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, -0.3, -1)
 
 [node name="Hands" type="Node3D" parent="Head/Camera3D"]
 unique_name_in_owner = true
@@ -429,7 +434,7 @@ bones/20/parent = 19
 bones/20/rest = Transform3D(0.995821, -0.0809558, -0.0423594, 0.0662974, 0.959241, -0.274703, 0.0628719, 0.270746, 0.960596, 1.18236e-08, 0.321952, -4.93202e-08)
 bones/20/enabled = true
 bones/20/position = Vector3(1.18236e-08, 0.321952, -4.93202e-08)
-bones/20/rotation = Quaternion(0.00868059, 0.000661718, -0.00463829, 0.999951)
+bones/20/rotation = Quaternion(0.00868059, 0.000661716, -0.00463829, 0.999951)
 bones/20/scale = Vector3(1, 1, 1)
 bones/21/name = "Chest"
 bones/21/parent = 20
@@ -450,7 +455,7 @@ bones/23/parent = 22
 bones/23/rest = Transform3D(0.985711, -0.167637, 0.016492, 0.161292, 0.91108, -0.379366, 0.0485704, 0.376605, 0.9251, -3.80043e-08, 0.270865, 5.3672e-09)
 bones/23/enabled = true
 bones/23/position = Vector3(-3.80043e-08, 0.270865, 5.3672e-09)
-bones/23/rotation = Quaternion(0.358775, 0.0602919, 0.00802559, 0.93144)
+bones/23/rotation = Quaternion(0.358775, 0.0602919, 0.00802558, 0.93144)
 bones/23/scale = Vector3(1, 1, 1)
 bones/24/name = "Head"
 bones/24/parent = 23
@@ -471,7 +476,7 @@ bones/26/parent = 22
 bones/26/rest = Transform3D(-0.210095, 0.899353, 0.383436, -0.114237, -0.412085, 0.903956, 0.970984, 0.146114, 0.189317, 0.08828, 0.281082, 0.0649611)
 bones/26/enabled = true
 bones/26/position = Vector3(0.08828, 0.281082, 0.0649611)
-bones/26/rotation = Quaternion(0.579127, 0.456084, 0.54727, -0.396352)
+bones/26/rotation = Quaternion(0.579127, 0.456085, 0.54727, -0.396352)
 bones/26/scale = Vector3(1, 1, 1)
 bones/27/name = "LeftArm"
 bones/27/parent = 26
@@ -499,7 +504,7 @@ bones/30/parent = 29
 bones/30/rest = Transform3D(0.983245, 0.00420086, -0.182238, -0.112791, 0.799396, -0.590122, 0.143202, 0.600789, 0.786477, -5.45904e-08, 0.1386, 1.56598e-08)
 bones/30/enabled = true
 bones/30/position = Vector3(-5.45904e-08, 0.1386, 1.56598e-08)
-bones/30/rotation = Quaternion(0.315188, -0.0861685, -0.0308494, 0.944606)
+bones/30/rotation = Quaternion(0.315188, -0.0861686, -0.0308494, 0.944606)
 bones/30/scale = Vector3(1, 1, 1)
 bones/31/name = "LeftHandIndex2"
 bones/31/parent = 30
@@ -604,7 +609,7 @@ bones/45/parent = 40
 bones/45/rest = Transform3D(-0.777003, -0.246567, -0.579197, 0.261459, 0.710572, -0.653244, 0.572629, -0.65901, -0.487648, -0.0639189, 0.0509809, -0.0128301)
 bones/45/enabled = true
 bones/45/position = Vector3(-0.0639189, 0.0509809, -0.0128301)
-bones/45/rotation = Quaternion(0.0043238, 0.86244, -0.380373, -0.333907)
+bones/45/rotation = Quaternion(0.00432379, 0.86244, -0.380373, -0.333907)
 bones/45/scale = Vector3(1, 1, 0.999999)
 bones/46/name = "RightHandThumb2"
 bones/46/parent = 45
@@ -625,7 +630,7 @@ bones/48/parent = 19
 bones/48/rest = Transform3D(0.923782, 0.380256, -0.0459643, 0.283788, -0.760033, -0.584657, -0.257265, 0.527027, -0.809979, 0.201529, 0.0584632, 7.05309e-08)
 bones/48/enabled = true
 bones/48/position = Vector3(0.201529, 0.0584632, 7.05309e-08)
-bones/48/rotation = Quaternion(0.946843, 0.20154, -0.231552, 0.0961913)
+bones/48/rotation = Quaternion(0.946843, 0.20154, -0.231552, 0.0961914)
 bones/48/scale = Vector3(1.00005, 1, 1)
 bones/49/name = "LeftLeg"
 bones/49/parent = 48
@@ -660,7 +665,7 @@ bones/53/parent = 19
 bones/53/rest = Transform3D(0.931798, 0.202856, -0.301033, -0.0289508, -0.785115, -0.618673, -0.361852, 0.585187, -0.725688, -0.201529, 0.0584633, 8.8405e-08)
 bones/53/enabled = true
 bones/53/position = Vector3(-0.201529, 0.0584633, 8.8405e-08)
-bones/53/rotation = Quaternion(0.962106, -0.0558991, -0.266754, 0.00831726)
+bones/53/rotation = Quaternion(0.962106, -0.0558991, -0.266754, 0.00831723)
 bones/53/scale = Vector3(1.00001, 1, 1)
 bones/54/name = "RightLeg"
 bones/54/parent = 53
@@ -697,7 +702,7 @@ skin = SubResource("Skin_kmnma")
 surface_material_override/0 = SubResource("StandardMaterial3D_l6hp1")
 
 [node name="Uzi" type="BoneAttachment3D" parent="Head/Camera3D/Hands/Root/Skeleton3D"]
-transform = Transform3D(0.180627, 0.0273749, -0.983173, -0.978756, 0.103595, -0.176928, 0.0970025, 0.994249, 0.0454941, -0.19992, 2.23621, 0.279872)
+transform = Transform3D(0.180625, 0.0273739, -0.98317, -0.978756, 0.103598, -0.176928, 0.0970033, 0.994249, 0.0454961, -0.19992, 2.23621, 0.279872)
 bone_name = "RightHand"
 bone_idx = 40
 
@@ -714,4 +719,5 @@ unique_name_in_owner = true
 transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, 0, 0)
 head = NodePath("../Head")
 
-[node name="AnimationHandler" parent="." instance=ExtResource("6_y10m8")]
+[node name="AnimationHandler" parent="." node_paths=PackedStringArray("shoot_synchronizer") instance=ExtResource("20_mybn3")]
+shoot_synchronizer = NodePath("../ShootSynchronizer")
