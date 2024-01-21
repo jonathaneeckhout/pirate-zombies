@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bwo30wk4cqauq"]
+[gd_scene load_steps=29 format=3 uid="uid://bwo30wk4cqauq"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.gd" id="1_20s56"]
 [ext_resource type="PackedScene" uid="uid://c1pe5e8s8bnw8" path="res://components/player/PlayerClientAuthorityController/PlayerClientAuthorityController.tscn" id="2_qb1yo"]
@@ -21,6 +21,7 @@
 [ext_resource type="Animation" uid="uid://bumd2h66kwit1" path="res://assets/kenney_animated-characters-1/Animations/hands/shoot-run.res" id="17_01bn3"]
 [ext_resource type="Animation" uid="uid://d3rhv33gmw27" path="res://assets/kenney_animated-characters-1/Animations/hands/t-pose.res" id="18_6crbl"]
 [ext_resource type="PackedScene" uid="uid://c108x7728457h" path="res://components/player/AnimationHandler/AnimationHandler.tscn" id="20_mybn3"]
+[ext_resource type="Texture2D" uid="uid://dkxngiw0jxwth" path="res://assets/crosshairpack_kenney/White/crosshair007.png" id="20_tj73u"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0fyq"]
 radius = 0.3
@@ -260,9 +261,9 @@ network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 
 [node name="ShootSynchronizer" parent="." node_paths=PackedStringArray("gun", "barrel_exit", "hit_ray") instance=ExtResource("6_3lq5d")]
-gun = NodePath("../Head/Camera3D/Hands/Root/Skeleton3D/Uzi/Uzi")
-barrel_exit = NodePath("../Head/Camera3D/BarrelExit")
-hit_ray = NodePath("../Head/Camera3D/HitRayCast3D")
+gun = NodePath("../Head/Hands/Root/Skeleton3D/Uzi/Uzi")
+barrel_exit = NodePath("../Head/BarrelExit")
+hit_ray = NodePath("../Head/HitRayCast3D")
 
 [node name="MouseGrabber" parent="." instance=ExtResource("5_8h8gt")]
 
@@ -277,19 +278,30 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 [node name="Camera3D" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
 
-[node name="HitRayCast3D" type="RayCast3D" parent="Head/Camera3D"]
-transform = Transform3D(1, 0, 0, 0, -8.74228e-07, -1, 0, 20, -4.37114e-08, 0, -0.3, -1)
+[node name="UI" type="CanvasLayer" parent="Head/Camera3D"]
 
-[node name="BarrelExit" parent="Head/Camera3D" instance=ExtResource("8_pk2qo")]
-transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, -0.3, -1)
+[node name="Crossair" type="TextureRect" parent="Head/Camera3D/UI"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 48.0
+offset_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("20_tj73u")
 
-[node name="Hands" type="Node3D" parent="Head/Camera3D"]
+[node name="Hands" type="Node3D" parent="Head"]
 unique_name_in_owner = true
 transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, -1.5, 0)
 
-[node name="Root" type="Node3D" parent="Head/Camera3D/Hands"]
+[node name="Root" type="Node3D" parent="Head/Hands"]
 
-[node name="Skeleton3D" type="Skeleton3D" parent="Head/Camera3D/Hands/Root"]
+[node name="Skeleton3D" type="Skeleton3D" parent="Head/Hands/Root"]
 bones/0/name = "LeftFootCtrl"
 bones/0/parent = -1
 bones/0/rest = Transform3D(0, 3.13457e-09, -1, -5.96046e-08, -1, -3.13457e-09, -1, 5.96046e-08, 0, 0.204209, 0.193205, -0.14881)
@@ -697,23 +709,29 @@ bones/57/position = Vector3(2.00998e-08, 0.213236, 8.1488e-10)
 bones/57/rotation = Quaternion(-1.4581e-08, 1.79803e-06, -3.04135e-08, 1)
 bones/57/scale = Vector3(1, 1, 1)
 
-[node name="characterMedium" type="MeshInstance3D" parent="Head/Camera3D/Hands/Root/Skeleton3D"]
+[node name="characterMedium" type="MeshInstance3D" parent="Head/Hands/Root/Skeleton3D"]
 mesh = SubResource("ArrayMesh_ou1ur")
 skin = SubResource("Skin_kmnma")
 surface_material_override/0 = SubResource("StandardMaterial3D_l6hp1")
 
-[node name="Uzi" type="BoneAttachment3D" parent="Head/Camera3D/Hands/Root/Skeleton3D"]
+[node name="Uzi" type="BoneAttachment3D" parent="Head/Hands/Root/Skeleton3D"]
 transform = Transform3D(0.180625, 0.0273735, -0.98317, -0.978756, 0.103596, -0.176929, 0.0970016, 0.994249, 0.0454952, -0.19992, 2.23621, 0.279873)
 bone_name = "RightHand"
 bone_idx = 40
 
-[node name="Uzi" parent="Head/Camera3D/Hands/Root/Skeleton3D/Uzi" instance=ExtResource("9_8panr")]
+[node name="Uzi" parent="Head/Hands/Root/Skeleton3D/Uzi" instance=ExtResource("9_8panr")]
 transform = Transform3D(0.180855, -0.967203, 0.178354, 0.0331896, 0.187243, 0.981753, -0.982949, -0.171636, 0.0659649, 0.0690026, 0.409, -0.0759995)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Head/Camera3D/Hands"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Head/Hands"]
 libraries = {
 "": SubResource("AnimationLibrary_j7hmt")
 }
+
+[node name="BarrelExit" parent="Head" instance=ExtResource("8_pk2qo")]
+transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, -0.3, -1)
+
+[node name="HitRayCast3D" type="RayCast3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, -8.74228e-07, -1, 0, 20, -4.37114e-08, 0, 0, -1)
 
 [node name="Model" parent="." node_paths=PackedStringArray("head") instance=ExtResource("7_0a1mn")]
 unique_name_in_owner = true
