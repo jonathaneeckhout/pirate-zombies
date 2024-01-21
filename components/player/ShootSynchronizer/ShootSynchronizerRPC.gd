@@ -30,6 +30,10 @@ func sync_shot_to_player(
 	_sync_shot_to_player.rpc_id(peer_id, player_name, timestamp, shot_position, shot_basis)
 
 
+func sync_hit_to_server(player_name: String, damage: int):
+	_sync_hit_to_server.rpc_id(1, player_name, damage)
+
+
 @rpc("call_remote", "any_peer", "unreliable")
 func _sync_shot_to_server(t: float, p: Vector3, b: Basis):
 	# Ensure this call is only run on the server.
@@ -64,3 +68,32 @@ func _sync_shot_to_player(n: String, t: float, p: Vector3, b: Basis):
 		return
 
 	player.shoot_synchronizer.client_sync_shot(t, p, b)
+
+
+@rpc("call_remote", "any_peer", "reliable")
+func _sync_hit_to_server(n: String, d: int):
+	# Ensure this call is only run on the server.
+	assert(_multiplayer_connection.is_server(), "This call can only run on the server")
+
+	# Get the sender's ID.
+	var id = multiplayer.get_remote_sender_id()
+
+	# Get the user associated with the sender's ID.
+	var user: MultiplayerConnection.User = _multiplayer_connection.get_user_by_id(id)
+	if user == null:
+		return
+
+	# Ignore the call if the user is not logged in.
+	if not user.logged_in:
+		return
+
+	# Ignore the call if the user's player is not initialized.
+	if user.player == null:
+		return
+
+	var player: Player = _multiplayer_connection.map.get_player_by_name(n)
+
+	if player == null:
+		return
+
+	player.stats_synchronizer.server_hurt(d)

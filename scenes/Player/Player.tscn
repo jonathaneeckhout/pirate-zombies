@@ -259,7 +259,8 @@ network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 [node name="StatsSynchronizer" parent="." node_paths=PackedStringArray("network_view_synchronizer") instance=ExtResource("5_3shs6")]
 network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 
-[node name="ShootSynchronizer" parent="." node_paths=PackedStringArray("barrel_exit", "hit_ray") instance=ExtResource("6_3lq5d")]
+[node name="ShootSynchronizer" parent="." node_paths=PackedStringArray("gun", "barrel_exit", "hit_ray") instance=ExtResource("6_3lq5d")]
+gun = NodePath("../Head/Camera3D/Hands/Root/Skeleton3D/Uzi/Uzi")
 barrel_exit = NodePath("../Head/Camera3D/BarrelExit")
 hit_ray = NodePath("../Head/Camera3D/HitRayCast3D")
 
@@ -702,7 +703,7 @@ skin = SubResource("Skin_kmnma")
 surface_material_override/0 = SubResource("StandardMaterial3D_l6hp1")
 
 [node name="Uzi" type="BoneAttachment3D" parent="Head/Camera3D/Hands/Root/Skeleton3D"]
-transform = Transform3D(0.180625, 0.0273739, -0.98317, -0.978756, 0.103598, -0.176928, 0.0970033, 0.994249, 0.0454961, -0.19992, 2.23621, 0.279872)
+transform = Transform3D(0.180625, 0.0273735, -0.98317, -0.978756, 0.103596, -0.176929, 0.0970016, 0.994249, 0.0454952, -0.19992, 2.23621, 0.279873)
 bone_name = "RightHand"
 bone_idx = 40
 

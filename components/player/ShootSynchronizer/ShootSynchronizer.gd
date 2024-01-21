@@ -5,7 +5,7 @@ class_name ShootSynchronizer
 signal shoot
 
 ## The projectile used for this weapon
-@export var projectile_scene: Resource = null
+@export var gun: Gun = null
 
 ## Marker to indicate the location of where the projectiles will be fired
 @export var barrel_exit: BarrelExit = null
@@ -18,9 +18,6 @@ signal shoot
 
 ## Key used to trigger the shot
 @export var shoot_key: String = "shoot"
-
-## Whether the projectile should instant hit or not (thus have fly time or not)
-@export var instant_hit: bool = false
 
 # Reference to the parent node (assumed to be a Player node).
 var _player: Player = null
@@ -103,7 +100,7 @@ func _handle_own_player():
 
 	shoot.emit()
 
-	print("pang")
+	_fire_gun(barrel_exit.position, barrel_exit.basis)
 
 
 func _check_server_buffer():
@@ -118,6 +115,25 @@ func _check_server_buffer():
 
 			# Remove the entry
 			_server_buffer.remove_at(i)
+
+
+func _fire_gun(shot_position: Vector3, shot_basis: Basis):
+	hit_ray.force_raycast_update()
+
+	if not hit_ray.is_colliding():
+		return
+
+	var collider: Object = hit_ray.get_collider()
+
+	# TODO: show particels by shooting the gun
+
+	if not collider.is_in_group("players"):
+		return
+
+	print("HIT")
+
+	# TODO: cleanup this case
+	_shoot_synchronizer_rpc.sync_hit_to_server(collider.name, 10)
 
 
 # func fire_projectile(

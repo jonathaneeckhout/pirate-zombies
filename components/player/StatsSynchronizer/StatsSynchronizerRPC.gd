@@ -68,4 +68,4 @@ func _sync_hurt(n: String, t: float, h: int, d: int):
 	if player == null:
 		return
 
-	player.stats_synchronizer.sync_hurt(t, h, d)
+	player.stats_synchronizer.client_sync_hurt(t, h, d)
