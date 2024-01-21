@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bwo30wk4cqauq"]
+[gd_scene load_steps=31 format=3 uid="uid://bwo30wk4cqauq"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.gd" id="1_20s56"]
 [ext_resource type="PackedScene" uid="uid://c1pe5e8s8bnw8" path="res://components/player/PlayerClientAuthorityController/PlayerClientAuthorityController.tscn" id="2_qb1yo"]
@@ -22,6 +22,7 @@
 [ext_resource type="Animation" uid="uid://d3rhv33gmw27" path="res://assets/kenney_animated-characters-1/Animations/hands/t-pose.res" id="18_6crbl"]
 [ext_resource type="PackedScene" uid="uid://c108x7728457h" path="res://components/player/AnimationHandler/AnimationHandler.tscn" id="20_mybn3"]
 [ext_resource type="Texture2D" uid="uid://dkxngiw0jxwth" path="res://assets/crosshairpack_kenney/White/crosshair007.png" id="20_tj73u"]
+[ext_resource type="PackedScene" uid="uid://bxpq3pehfwvmq" path="res://scenes/healthbar/healthbar.tscn" id="23_5trlm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0fyq"]
 radius = 0.3
@@ -246,6 +247,9 @@ _data = {
 "shoot-run": ExtResource("17_01bn3"),
 "t-pose": ExtResource("18_6crbl")
 }
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_1xjxy"]
+viewport_path = NodePath("SubViewport")
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_20s56")
@@ -740,3 +744,8 @@ head = NodePath("../Head")
 
 [node name="AnimationHandler" parent="." node_paths=PackedStringArray("shoot_synchronizer") instance=ExtResource("20_mybn3")]
 shoot_synchronizer = NodePath("../ShootSynchronizer")
+
+[node name="HealthBar" parent="." node_paths=PackedStringArray("stats_synchronizer") instance=ExtResource("23_5trlm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.45611, 0)
+texture = SubResource("ViewportTexture_1xjxy")
+stats_synchronizer = NodePath("../StatsSynchronizer")

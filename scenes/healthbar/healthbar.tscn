@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://bxpq3pehfwvmq"]
+
+[ext_resource type="Texture2D" uid="uid://7c0d2qjbf8yg" path="res://assets/healthbar/scaled/BarGlass.png" id="1_spgcy"]
+[ext_resource type="Script" path="res://scenes/healthbar/healthbar.gd" id="1_wsqgb"]
+[ext_resource type="Texture2D" uid="uid://dguocpjsk6147" path="res://assets/healthbar/scaled/GreenBar.png" id="2_6tdk7"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_d4vop"]
+viewport_path = NodePath("SubViewport")
+
+[node name="HealthBar" type="Sprite3D"]
+billboard = 1
+texture = SubResource("ViewportTexture_d4vop")
+script = ExtResource("1_wsqgb")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(307, 307)
+
+[node name="ProgressBar" type="TextureProgressBar" parent="SubViewport"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -77.0
+offset_right = 77.0
+offset_bottom = 77.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+value = 100.0
+texture_over = ExtResource("1_spgcy")
+texture_progress = ExtResource("2_6tdk7")
+
+[node name="Player" type="Label" parent="SubViewport"]
+clip_contents = true
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -24.5
+offset_top = 100.0
+offset_right = 24.5
+offset_bottom = 123.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+text = "Player"

@@ -4,3 +4,5 @@ class_name Gun
 
 # The player to which this weapon belongs to
 @export var player: Player = null
+
+var damage: int = 10

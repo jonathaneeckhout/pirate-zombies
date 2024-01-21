@@ -130,61 +130,8 @@ func _fire_gun(shot_position: Vector3, shot_basis: Basis):
 	if not collider.is_in_group("players"):
 		return
 
-	print("HIT")
-
 	# TODO: cleanup this case
-	_shoot_synchronizer_rpc.sync_hit_to_server(collider.name, 10)
-
-
-# func fire_projectile(
-# 	projectile_position: Vector3, projectile_transform_basis: Basis, original: bool
-# ):
-# 	# Play the shoot animation
-# 	weapon_animationplayer.play("shoot")
-
-# 	# If no scene is assigned, don't try to create a new instance
-# 	if not projectile_scene:
-# 		return
-
-# 	if _current_projectile != null:
-# 		# Emit the signal to be used for other components
-# 		single_projectile_released.emit(_current_projectile)
-
-# 		# This mean that the current projectile should be released
-# 		_current_projectile.queue_free()
-
-# 		# Set this value to null so that clicking shoot the next time will shoot again.
-# 		_current_projectile = null
-
-# 		return
-
-# 	var pos: Vector3 = projectile_position
-
-# 	if instant_hit:
-# 		# Force the update to scan the area
-# 		hit_ray.force_raycast_update()
-
-# 		# If you're not hitting anything, don't do anything
-# 		if not hit_ray.is_colliding():
-# 			return
-
-# 		pos = hit_ray.get_collision_point()
-
-# 	# Create the projectile
-# 	var projectile: Projectile = projectile_scene.instantiate()
-# 	projectile.position = pos
-# 	projectile.transform.basis = projectile_transform_basis
-# 	projectile.original = original
-# 	projectile.persistent = single_projectile
-# 	projectile.instant_hit = instant_hit
-# 	Connection.map.projectiles.add_child(projectile)
-
-# 	# If this variable is null means that the projectile is not fired. Thus assigning it to this variable
-# 	if single_projectile:
-# 		_current_projectile = projectile
-
-# 		# Emit the signal to be used for other components
-# 		single_projectile_shot.emit(projectile)
+	_shoot_synchronizer_rpc.sync_hit_to_server(collider.name, gun.damage)
 
 
 # Called on server-side

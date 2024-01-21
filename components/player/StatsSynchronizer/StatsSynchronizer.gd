@@ -2,7 +2,7 @@ extends Node
 
 class_name StatsSynchronizer
 
-enum TYPE { HP_MAX, HP }
+enum TYPE { MAX_HP, HP }
 enum SYNC_MESSAGE_TYPE { HURT }
 
 signal stats_changed(stat_type: TYPE)
@@ -14,7 +14,7 @@ const MAX_HP_DEFAULT: int = 100
 ## Reference to the NetworkViewSynchronizer component
 @export var network_view_synchronizer: NetworkViewSynchronizer
 
-@export var hp_max: int = MAX_HP_DEFAULT
+@export var max_hp: int = MAX_HP_DEFAULT
 @export var hp: int = MAX_HP_DEFAULT
 
 # Reference to the parent node (assumed to be a Player node).
