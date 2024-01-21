@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ccj2wplepki86" path="res://scenes/Player/Model/Model.tscn" id="7_0a1mn"]
 [ext_resource type="Texture2D" uid="uid://ctatvl4hjrag6" path="res://assets/kenney_animated-characters-1/Skins/Source/zombieC.svg" id="8_ncejb"]
 [ext_resource type="PackedScene" uid="uid://cmypcs2ymfivv" path="res://scenes/BarrelExit/BarrelExit.tscn" id="8_pk2qo"]
+[ext_resource type="PackedScene" uid="uid://cm62ocpj1igjn" path="res://scenes/Player/UI.tscn" id="8_wmek2"]
 [ext_resource type="PackedScene" uid="uid://dog6qgrarkxcw" path="res://scenes/guns/Uzi/Uzi.tscn" id="9_8panr"]
 [ext_resource type="Animation" uid="uid://cxpxih6ntosgu" path="res://assets/kenney_animated-characters-1/Animations/hands/idle.res" id="10_smlhv"]
 [ext_resource type="Animation" uid="uid://bnnht4mixmiyt" path="res://assets/kenney_animated-characters-1/Animations/hands/jump.res" id="11_6pa2u"]
@@ -21,7 +22,6 @@
 [ext_resource type="Animation" uid="uid://bumd2h66kwit1" path="res://assets/kenney_animated-characters-1/Animations/hands/shoot-run.res" id="17_01bn3"]
 [ext_resource type="Animation" uid="uid://d3rhv33gmw27" path="res://assets/kenney_animated-characters-1/Animations/hands/t-pose.res" id="18_6crbl"]
 [ext_resource type="PackedScene" uid="uid://c108x7728457h" path="res://components/player/AnimationHandler/AnimationHandler.tscn" id="20_mybn3"]
-[ext_resource type="Texture2D" uid="uid://dkxngiw0jxwth" path="res://assets/crosshairpack_kenney/White/crosshair007.png" id="20_tj73u"]
 [ext_resource type="PackedScene" uid="uid://bxpq3pehfwvmq" path="res://scenes/healthbar/healthbar.tscn" id="23_5trlm"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g0fyq"]
@@ -282,22 +282,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 [node name="Camera3D" type="Camera3D" parent="Head"]
 unique_name_in_owner = true
 
-[node name="UI" type="CanvasLayer" parent="Head/Camera3D"]
-
-[node name="Crossair" type="TextureRect" parent="Head/Camera3D/UI"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 48.0
-offset_bottom = 48.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("20_tj73u")
+[node name="UI" parent="Head/Camera3D" node_paths=PackedStringArray("player", "stats_synchronizer") instance=ExtResource("8_wmek2")]
+player = NodePath("../../..")
+stats_synchronizer = NodePath("../../../StatsSynchronizer")
 
 [node name="Hands" type="Node3D" parent="Head"]
 unique_name_in_owner = true
