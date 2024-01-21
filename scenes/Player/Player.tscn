@@ -722,7 +722,7 @@ libraries = {
 transform = Transform3D(-1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, -0.3, -1)
 
 [node name="HitRayCast3D" type="RayCast3D" parent="Head"]
-transform = Transform3D(1, 0, 0, 0, -8.74228e-07, -1, 0, 20, -4.37114e-08, 0, 0, -1)
+transform = Transform3D(1, 0, 0, 0, -2.18557e-06, -1, 0, 50, -4.37114e-08, 0, 0, -1)
 
 [node name="Model" parent="." node_paths=PackedStringArray("head") instance=ExtResource("7_0a1mn")]
 unique_name_in_owner = true

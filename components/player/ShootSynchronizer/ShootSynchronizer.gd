@@ -14,7 +14,7 @@ signal shoot
 @export var hit_ray: RayCast3D = null
 
 ## The delay between two shots
-@export var shoot_delay: float = 0.25
+@export var shoot_delay: float = 0.10
 
 ## Key used to trigger the shot
 @export var shoot_key: String = "shoot"
