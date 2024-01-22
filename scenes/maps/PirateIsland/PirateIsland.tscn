@@ -25,11 +25,11 @@ top_radius = 300.0
 bottom_radius = 300.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m4t8v"]
-albedo_color = Color(0, 0.101961, 0.2, 1)
+albedo_color = Color(0.286275, 0.909804, 1, 1)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jmilv"]
-sky_top_color = Color(0.0196078, 0.0823529, 0.270588, 1)
-sky_horizon_color = Color(0.12549, 0.12549, 0.12549, 1)
+sky_top_color = Color(0.364706, 0.764706, 0.988235, 1)
+sky_horizon_color = Color(0.894118, 0.937255, 0.988235, 1)
 
 [sub_resource type="Sky" id="Sky_iw4rc"]
 sky_material = SubResource("ProceduralSkyMaterial_jmilv")
@@ -37,7 +37,6 @@ sky_material = SubResource("ProceduralSkyMaterial_jmilv")
 [sub_resource type="Environment" id="Environment_klmq4"]
 background_mode = 2
 sky = SubResource("Sky_iw4rc")
-fog_enabled = true
 fog_light_color = Color(0.403922, 0.247059, 0.215686, 1)
 fog_light_energy = 0.8
 
@@ -137,9 +136,9 @@ material = SubResource("StandardMaterial3D_m4t8v")
 [node name="Lights" type="Node3D" parent="."]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Lights"]
-transform = Transform3D(-0.601815, -0.405338, 0.688128, 0, 0.861629, 0.507538, -0.798635, 0.305444, -0.518541, 0, 0, 0)
-light_color = Color(0.756863, 0.796078, 1, 1)
-light_energy = 0.5
+transform = Transform3D(-0.601815, -0.405338, 0.688128, 0, 0.861629, 0.507538, -0.798635, 0.305444, -0.518542, 0, 0, 0)
+light_color = Color(0.988235, 0.831373, 0.25098, 1)
+light_energy = 0.7
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -151,5 +150,6 @@ transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -
 
 [node name="Moon" type="CSGSphere3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 940, 720, -680)
+visible = false
 radius = 80.0
 material = SubResource("StandardMaterial3D_6f3fb")
