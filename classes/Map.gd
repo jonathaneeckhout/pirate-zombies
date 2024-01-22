@@ -7,6 +7,8 @@ class_name Map
 ## The scene used for this map
 @export var player_scene: Resource = null
 
+@export var respawn_locations: Node3D = null
+
 ## Node grouping all the players
 var players: Node3D = null
 
@@ -51,6 +53,22 @@ func map_init() -> bool:
 	return true
 
 
+func get_random_spawn_location():
+	# Get how many respawn locations there are in this map
+	var number_of_respawn_location: int = respawn_locations.get_child_count()
+
+	# Pick a random index of the childs
+	var random_spawn_location_index: int = randi() % number_of_respawn_location
+
+	# Get that random child
+	var random_spawn_location: RespawnLocation = respawn_locations.get_child(
+		random_spawn_location_index
+	)
+
+	# Return the position of this random respawn location
+	return random_spawn_location.position
+
+
 ## Return an player by it's name if it doesn't exist it will return null
 func get_player_by_name(player_name: String) -> Player:
 	return players.get_node_or_null(player_name)
@@ -66,7 +84,7 @@ func _on_server_player_added(username: String, peer_id: int):
 	var new_player: Player = player_scene.instantiate()
 	new_player.name = username
 	new_player.peer_id = peer_id
-	new_player.position.y = 10.0
+	new_player.position = get_random_spawn_location()
 	new_player.multiplayer_connection = multiplayer_connection
 
 	GodotLogger.info("Adding player=[%s] with id=[%d] to the map" % [new_player.name, peer_id])

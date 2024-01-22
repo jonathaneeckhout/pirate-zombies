@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://co0aw2wpeffm8"]
+
+[ext_resource type="Script" path="res://scenes/RespawnLocation/RespawnLocation.gd" id="1_btw2a"]
+
+[node name="RespawnLocation" type="Marker3D"]
+script = ExtResource("1_btw2a")
