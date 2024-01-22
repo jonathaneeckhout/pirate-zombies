@@ -32,6 +32,10 @@ func sync_hurt(peer_id: int, player_name: String, timestamp: float, health: int,
 	_sync_hurt.rpc_id(peer_id, player_name, timestamp, health, damage)
 
 
+func sync_reset_hp(peer_id: int, player_name: String, timestamp: float, health: int):
+	_sync_reset_hp.rpc_id(peer_id, player_name, timestamp, health)
+
+
 #Called by client, runs on server
 @rpc("call_remote", "any_peer", "reliable")
 func _sync_stats(n: String):
@@ -69,3 +73,13 @@ func _sync_hurt(n: String, t: float, h: int, d: int):
 		return
 
 	player.stats_synchronizer.client_sync_hurt(t, h, d)
+
+
+@rpc("call_remote", "authority", "reliable")
+func _sync_reset_hp(n: String, t: float, h: int):
+	var player: Player = _multiplayer_connection.map.get_player_by_name(n)
+
+	if player == null:
+		return
+
+	player.stats_synchronizer.client_reset_hp(t, h)

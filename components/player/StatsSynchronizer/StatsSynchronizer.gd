@@ -3,10 +3,10 @@ extends Node
 class_name StatsSynchronizer
 
 enum TYPE { MAX_HP, HP }
-enum SYNC_MESSAGE_TYPE { HURT }
+enum SYNC_MESSAGE_TYPE { HURT, RESET_HP }
 
-signal stats_changed(stat_type: TYPE)
 signal hurt(damage: int)
+signal hp_reset(new_hp: int)
 signal died
 
 const MAX_HP_DEFAULT: int = 100
@@ -87,6 +87,14 @@ func _check_server_buffer():
 
 					hurt.emit(entry["damage"])
 
+					if hp <= 0:
+						died.emit()
+
+				SYNC_MESSAGE_TYPE.RESET_HP:
+					hp = entry["hp"]
+
+					hp_reset.emit(hp)
+
 			# Remove the entry
 			_server_buffer.remove_at(i)
 
@@ -95,6 +103,7 @@ func server_hurt(damage: int):
 	var reduced_hp: int = hp - damage
 	# You died
 	if reduced_hp <= 0:
+		hp = 0
 		died.emit()
 	else:
 		hp = reduced_hp
@@ -111,9 +120,30 @@ func server_hurt(damage: int):
 	hurt.emit(damage)
 
 
+func server_reset_hp():
+	hp = max_hp
+
+	var timestamp: float = Time.get_unix_time_from_system()
+
+	# Sync the new hp to the owner of this component
+	_stats_synchronizer_rpc.sync_reset_hp(_player.peer_id, _player.name, timestamp, hp)
+
+	# And to everyone looking at this owner
+	for player in network_view_synchronizer.players_in_view:
+		_stats_synchronizer_rpc.sync_reset_hp(player.peer_id, _player.name, timestamp, hp)
+
+	hp_reset.emit(hp)
+
+
 func client_sync_hurt(timestamp: float, new_hp: int, damage: int):
 	_server_buffer.append(
 		{"type": SYNC_MESSAGE_TYPE.HURT, "timestamp": timestamp, "hp": new_hp, "damage": damage}
+	)
+
+
+func client_reset_hp(timestamp: float, new_hp: int):
+	_server_buffer.append(
+		{"type": SYNC_MESSAGE_TYPE.RESET_HP, "timestamp": timestamp, "hp": new_hp}
 	)
 
 

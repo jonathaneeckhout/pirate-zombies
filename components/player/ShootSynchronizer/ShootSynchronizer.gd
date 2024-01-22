@@ -117,7 +117,7 @@ func _check_server_buffer():
 			_server_buffer.remove_at(i)
 
 
-func _fire_gun(shot_position: Vector3, shot_basis: Basis):
+func _fire_gun(_shot_position: Vector3, _shot_basis: Basis):
 	hit_ray.force_raycast_update()
 
 	if not hit_ray.is_colliding():

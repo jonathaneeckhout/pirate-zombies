@@ -19,6 +19,7 @@ func _ready():
 	update(stats_synchronizer.hp, stats_synchronizer.max_hp)
 
 	stats_synchronizer.hurt.connect(_on_hurt)
+	stats_synchronizer.hp_reset.connect(_on_hp_reset)
 
 
 func update(amount, full):
@@ -31,4 +32,8 @@ func update(amount, full):
 
 
 func _on_hurt(_damage: int):
+	update(stats_synchronizer.hp, stats_synchronizer.max_hp)
+
+
+func _on_hp_reset(_new_hp: int):
 	update(stats_synchronizer.hp, stats_synchronizer.max_hp)
