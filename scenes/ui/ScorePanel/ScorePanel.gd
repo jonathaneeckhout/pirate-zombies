@@ -28,10 +28,12 @@ func _ready():
 
 func _input(event):
 	if event.is_action_pressed("show_score"):
-		visible = !visible
+		visible = true
 
-		if visible:
-			ui.player.multiplayer_connection.map.round_synchronizer.client_sync_scores()
+		ui.player.multiplayer_connection.map.round_synchronizer.client_sync_scores()
+
+	elif event.is_action_released("show_score"):
+		visible = false
 
 
 func _on_scores_updated():

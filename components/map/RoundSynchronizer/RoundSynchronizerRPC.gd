@@ -28,6 +28,14 @@ func server_sync_response(peer_id: int, data: Dictionary):
 	_server_sync_response.rpc_id(peer_id, data)
 
 
+func client_sync_round_clock():
+	_client_sync_round_clock.rpc_id(1)
+
+
+func server_sync_round_clock_response(peer_id: int, timestamp: float, time_left: float):
+	_server_sync_round_clock_response.rpc_id(peer_id, timestamp, time_left)
+
+
 @rpc("call_remote", "any_peer", "reliable")
 func _client_sync_scores():
 	# Ensure this call is only run on the server.
@@ -55,3 +63,36 @@ func _client_sync_scores():
 @rpc("call_remote", "authority", "reliable")
 func _server_sync_response(d: Dictionary):
 	_multiplayer_connection.map.round_synchronizer.client_sync_response(d)
+
+
+@rpc("call_remote", "any_peer", "reliable")
+func _client_sync_round_clock():
+	# Ensure this call is only run on the server.
+	assert(_multiplayer_connection.is_server(), "This call can only run on the server")
+
+	# Get the sender's ID.
+	var id = multiplayer.get_remote_sender_id()
+
+	# Get the user associated with the sender's ID.
+	var user: MultiplayerConnection.User = _multiplayer_connection.get_user_by_id(id)
+	if user == null:
+		return
+
+	# Ignore the call if the user is not logged in.
+	if not user.logged_in:
+		return
+
+	# Ignore the call if the user's player is not initialized.
+	if user.player == null:
+		return
+
+	server_sync_round_clock_response(
+		user.player.peer_id,
+		Time.get_unix_time_from_system(),
+		_multiplayer_connection.map.round_synchronizer.round_timer.time_left
+	)
+
+
+@rpc("call_remote", "authority", "reliable")
+func _server_sync_round_clock_response(t: float, l: float):
+	_multiplayer_connection.map.round_synchronizer.client_sync_round_clock_response(t, l)

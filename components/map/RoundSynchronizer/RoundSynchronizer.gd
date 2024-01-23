@@ -13,6 +13,9 @@ var scores: Dictionary = {}
 
 var _map: Map = null
 
+# Reference to the ClockSynchronizer component for timestamp synchronization.
+var _clock_synchronizer: ClockSynchronizer = null
+
 var _player_spawn_synchronizer: PlayerSpawnerSynchronizer = null
 
 var _round_synchronizer_rpc: RoundSynchronizerRPC = null
@@ -24,6 +27,14 @@ func _ready():
 
 	# Ensure the player has a multiplayer connection
 	assert(_map.multiplayer_connection != null, "Map's multiplayer connection is null")
+
+	# Get the ClockSynchronizer component.
+	_clock_synchronizer = _map.multiplayer_connection.component_list.get_component(
+		ClockSynchronizer.COMPONENT_NAME
+	)
+
+	# Ensure the ClockSynchronizer component is present
+	assert(_clock_synchronizer != null, "Failed to get ClockSynchronizer component")
 
 	_player_spawn_synchronizer = (_map.multiplayer_connection.component_list.get_component(
 		PlayerSpawnerSynchronizer.COMPONENT_NAME
@@ -39,14 +50,15 @@ func _ready():
 
 	round_timer = Timer.new()
 	round_timer.name = "RoundTimer"
+	round_timer.wait_time = round_time
 
 	if _map.multiplayer_connection.is_server():
 		round_timer.autostart = true
-		round_timer.wait_time = round_time
+		round_timer.timeout.connect(_on_server_round_timer_timeout)
 	else:
 		round_timer.autostart = false
+		round_timer.timeout.connect(_on_client_round_timer_timeout)
 
-	round_timer.timeout.connect(_on_round_timer_timeout)
 	add_child(round_timer)
 
 	# Server-side logic
@@ -66,6 +78,8 @@ func _ready():
 		#Some entities take a bit to get added to the tree, do not update them until then.
 		if not is_inside_tree():
 			await tree_entered
+
+		client_sync_round_clock()
 
 
 func add_score(player_name_with_kill: String, player_name_with_death: String):
@@ -91,6 +105,18 @@ func client_sync_response(data: Dictionary):
 	scores_updated.emit()
 
 
+func client_sync_round_clock():
+	_round_synchronizer_rpc.client_sync_round_clock()
+
+
+func client_sync_round_clock_response(timestamp: float, time_left: float):
+	round_timer.stop()
+
+	var diff: float = time_left - (_clock_synchronizer.client_clock - timestamp)
+
+	round_timer.start(diff)
+
+
 func _get_winner() -> String:
 	var winner: String = ""
 	var highest_kills: int = 0
@@ -102,7 +128,7 @@ func _get_winner() -> String:
 	return winner
 
 
-func _on_round_timer_timeout():
+func _on_server_round_timer_timeout():
 	var winner: String = _get_winner()
 
 	round_won_by.emit(winner)
@@ -111,6 +137,10 @@ func _on_round_timer_timeout():
 	for player_name in scores:
 		scores[player_name]["kills"] = 0
 		scores[player_name]["deaths"] = 0
+
+
+func _on_client_round_timer_timeout():
+	client_sync_round_clock()
 
 
 func _on_server_player_added(username: String, _peer_id: int):
