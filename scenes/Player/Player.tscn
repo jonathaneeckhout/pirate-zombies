@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bwo30wk4cqauq"]
+[gd_scene load_steps=33 format=3 uid="uid://bwo30wk4cqauq"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.gd" id="1_20s56"]
 [ext_resource type="PackedScene" uid="uid://c1pe5e8s8bnw8" path="res://components/player/PlayerClientAuthorityController/PlayerClientAuthorityController.tscn" id="2_qb1yo"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://v8ye6ytjgkmq" path="res://components/player/ShootSynchronizer/ShootSynchronizer.tscn" id="6_3lq5d"]
 [ext_resource type="PackedScene" uid="uid://ccj2wplepki86" path="res://scenes/Player/Model/Model.tscn" id="7_0a1mn"]
 [ext_resource type="PackedScene" uid="uid://c3457hde0drqk" path="res://components/player/RespawnSycnhronizer/RespawnSynchronizer.tscn" id="7_04geg"]
+[ext_resource type="PackedScene" uid="uid://cs7jr7salnljl" path="res://scenes/TombStone/TombStone.tscn" id="8_lt0j2"]
 [ext_resource type="Texture2D" uid="uid://ctatvl4hjrag6" path="res://assets/kenney_animated-characters-1/Skins/Source/zombieC.svg" id="8_ncejb"]
 [ext_resource type="PackedScene" uid="uid://cmypcs2ymfivv" path="res://scenes/BarrelExit/BarrelExit.tscn" id="8_pk2qo"]
 [ext_resource type="PackedScene" uid="uid://cm62ocpj1igjn" path="res://scenes/Player/UI.tscn" id="8_wmek2"]
@@ -275,6 +276,7 @@ hit_ray = NodePath("../Head/HitRayCast3D")
 [node name="RespawnSynchronizer" parent="." node_paths=PackedStringArray("stats_synchronizer", "network_view_synchronizer") instance=ExtResource("7_04geg")]
 stats_synchronizer = NodePath("../StatsSynchronizer")
 network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
+tombstone_scene = ExtResource("8_lt0j2")
 
 [node name="MouseGrabber" parent="." instance=ExtResource("5_8h8gt")]
 

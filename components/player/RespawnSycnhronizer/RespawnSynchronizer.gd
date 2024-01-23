@@ -10,6 +10,8 @@ signal respawned
 ## Reference to the NetworkViewSynchronizer component
 @export var network_view_synchronizer: NetworkViewSynchronizer
 
+@export var tombstone_scene: Resource = null
+
 @export var respawn_time: float = 5.0
 
 # Reference to the parent node (assumed to be a Player node).
@@ -18,6 +20,8 @@ var _player: Player = null
 var _respawn_synchronizer_rpc: RespawnSynchronizerRPC = null
 
 var _respawning: bool = false
+
+var _collision_layer: int = 0
 
 
 # Called when the node enters the scene tree for the first time.
@@ -47,10 +51,24 @@ func client_sync_respawn_position(pos: Vector3):
 	# Update the player's values.
 	_player.position = pos
 
+	_player.collision_layer = _collision_layer
+	_collision_layer = 0
+
 
 func client_sync_respawning():
 	_player.hide()
 	respawning.emit()
+
+	_collision_layer = _player.collision_layer
+	_player.collision_layer = 0
+
+	if tombstone_scene != null:
+		var tombstone: TombStone = tombstone_scene.instantiate()
+		tombstone.name = "TombStond-%s" % _player.name
+		tombstone.position = _player.position
+		tombstone.basis = _player.basis
+		tombstone.set_player_name(_player.name)
+		_player.multiplayer_connection.map.client_decorations.add_child(tombstone)
 
 
 func client_sync_respawned():
@@ -66,6 +84,9 @@ func _handle_respawn():
 
 	respawning.emit()
 
+	_collision_layer = _player.collision_layer
+	_player.collision_layer = 0
+
 	# Sync the new hp to the owner of this component
 	_respawn_synchronizer_rpc.sync_respawning(_player.peer_id, _player.name)
 
@@ -77,6 +98,9 @@ func _handle_respawn():
 
 	stats_synchronizer.server_reset_hp()
 	_player.position = _player.multiplayer_connection.map.get_random_spawn_location()
+
+	_player.collision_layer = _collision_layer
+	_collision_layer = 0
 
 	# Sync the new hp to the owner of this component
 	_respawn_synchronizer_rpc.sync_respawn_position(_player.peer_id, _player.name, _player.position)

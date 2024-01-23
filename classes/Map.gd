@@ -15,6 +15,8 @@ var players: Node3D = null
 ## Node grouping all the projectiles
 var projectiles: Node3D = null
 
+var client_decorations: Node = null
+
 var _player_spawn_synchronizer: PlayerSpawnerSynchronizer = null
 
 
@@ -30,6 +32,11 @@ func _ready():
 	projectiles = Node3D.new()
 	projectiles.name = "Projectiles"
 	add_child(projectiles)
+
+	# Create the projectiles node
+	client_decorations = Node3D.new()
+	client_decorations.name = "ClientDecorations"
+	add_child(client_decorations)
 
 
 func map_init() -> bool:

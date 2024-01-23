@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cs7jr7salnljl"]
+
+[ext_resource type="PackedScene" uid="uid://cpty3ww7op7d7" path="res://assets/cross/cross.glb" id="1_jd0d6"]
+[ext_resource type="Script" path="res://scenes/TombStone/TombStone.gd" id="2_4h3eb"]
+
+[node name="TombStone" instance=ExtResource("1_jd0d6")]
+script = ExtResource("2_4h3eb")
+
+[node name="tombstone" parent="." index="0"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="PlayerNameLabel" type="Label3D" parent="." index="1"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.614664, -0.102363)
+text = "Player
+"
+font_size = 16
+autowrap_mode = 1
+width = 100.0
