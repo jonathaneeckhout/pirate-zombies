@@ -28,7 +28,7 @@ func update(amount, full):
 	progress_bar.value = amount
 
 
-func _on_hurt(_damage: int):
+func _on_hurt(_attacker_name: String, _damage: int):
 	update(stats_synchronizer.hp, stats_synchronizer.max_hp)
 
 

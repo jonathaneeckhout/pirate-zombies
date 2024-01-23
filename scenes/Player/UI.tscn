@@ -35,3 +35,13 @@ grow_horizontal = 0
 grow_vertical = 0
 texture_over = ExtResource("3_2sw02")
 texture_progress = ExtResource("4_v6hfm")
+
+[node name="RoundTimeLabel" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -86.0
+offset_right = 86.0
+offset_bottom = 23.0
+grow_horizontal = 2
+text = "Round Time left: 5:00"

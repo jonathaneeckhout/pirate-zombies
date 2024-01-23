@@ -23,6 +23,8 @@ var _player_spawn_synchronizer: PlayerSpawnerSynchronizer = null
 func _ready():
 	multiplayer_connection.map = self
 
+	randomize()
+
 	# Create the players node
 	players = Node3D.new()
 	players.name = "Players"

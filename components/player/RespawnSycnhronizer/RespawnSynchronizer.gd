@@ -123,5 +123,5 @@ func _handle_respawn():
 		_respawn_synchronizer_rpc.sync_respawned(player.peer_id, _player.name)
 
 
-func _on_died():
+func _on_died(_attacker_name: String):
 	_handle_respawn()

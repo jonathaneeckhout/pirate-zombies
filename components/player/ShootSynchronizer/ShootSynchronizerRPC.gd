@@ -30,8 +30,8 @@ func sync_shot_to_player(
 	_sync_shot_to_player.rpc_id(peer_id, player_name, timestamp, shot_position, shot_basis)
 
 
-func sync_hit_to_server(player_name: String, damage: int):
-	_sync_hit_to_server.rpc_id(1, player_name, damage)
+func sync_hit_to_server(player_name: String, attacker_name: String, damage: int):
+	_sync_hit_to_server.rpc_id(1, player_name, attacker_name, damage)
 
 
 @rpc("call_remote", "any_peer", "unreliable")
@@ -73,7 +73,7 @@ func _sync_shot_to_player(n: String, t: float, p: Vector3, b: Basis):
 
 
 @rpc("call_remote", "any_peer", "reliable")
-func _sync_hit_to_server(n: String, d: int):
+func _sync_hit_to_server(n: String, a: String, d: int):
 	# Ensure this call is only run on the server.
 	assert(_multiplayer_connection.is_server(), "This call can only run on the server")
 
@@ -99,5 +99,10 @@ func _sync_hit_to_server(n: String, d: int):
 		return
 
 	assert(player.shoot_synchronizer != null, "shoot_synchronizer is null")
+	
+	var attacker: Player = _multiplayer_connection.map.get_player_by_name(a)
 
-	player.stats_synchronizer.server_hurt(d)
+	if attacker == null:
+		return
+
+	player.stats_synchronizer.server_hurt(attacker, d)

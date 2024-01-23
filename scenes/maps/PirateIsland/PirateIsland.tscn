@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://544kggxrcwmy"]
+[gd_scene load_steps=22 format=3 uid="uid://544kggxrcwmy"]
 
 [ext_resource type="Script" path="res://scenes/maps/PirateIsland/PirateIsland.gd" id="1_eldty"]
 [ext_resource type="PackedScene" uid="uid://bwo30wk4cqauq" path="res://scenes/Player/Player.tscn" id="2_bx57r"]
+[ext_resource type="PackedScene" uid="uid://ob6cwyu2qcak" path="res://components/map/RoundSynchronizer/RoundSynchronizer.tscn" id="3_an0at"]
 [ext_resource type="Texture2D" uid="uid://xrqwj1ruf5jt" path="res://assets/textures/Sand 1.jpg" id="3_v1sr7"]
 [ext_resource type="PackedScene" uid="uid://bx3mktf0ey8l7" path="res://scenes/terrain/Tower/Tower.tscn" id="4_qi8qj"]
 [ext_resource type="PackedScene" uid="uid://cmd2m67wtpoxr" path="res://scenes/terrain/Hill/Hill.tscn" id="5_er8i5"]
@@ -60,6 +61,8 @@ emission_energy_multiplier = 8.0
 script = ExtResource("1_eldty")
 player_scene = ExtResource("2_bx57r")
 respawn_locations = NodePath("RespawnLocations")
+
+[node name="RoundSynchronizer" parent="." instance=ExtResource("3_an0at")]
 
 [node name="Layout" type="Node3D" parent="."]
 

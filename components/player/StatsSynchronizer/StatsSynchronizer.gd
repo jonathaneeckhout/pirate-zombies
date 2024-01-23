@@ -5,9 +5,9 @@ class_name StatsSynchronizer
 enum TYPE { MAX_HP, HP }
 enum SYNC_MESSAGE_TYPE { HURT, RESET_HP }
 
-signal hurt(damage: int)
+signal hurt(attacker_name: String, damage: int)
 signal hp_reset(new_hp: int)
-signal died
+signal died(killer_name: String)
 
 const MAX_HP_DEFAULT: int = 100
 
@@ -85,10 +85,10 @@ func _check_server_buffer():
 				SYNC_MESSAGE_TYPE.HURT:
 					hp = entry["hp"]
 
-					hurt.emit(entry["damage"])
+					hurt.emit(entry["attacker"], entry["damage"])
 
 					if hp <= 0:
-						died.emit()
+						died.emit(entry["attacker"])
 
 				SYNC_MESSAGE_TYPE.RESET_HP:
 					hp = entry["hp"]
@@ -103,7 +103,7 @@ func is_dead():
 	return hp <= 0
 
 
-func server_hurt(damage: int):
+func server_hurt(attacker: Player, damage: int):
 	# Don't hurt the death
 	if is_dead():
 		return
@@ -112,20 +112,24 @@ func server_hurt(damage: int):
 	# You died
 	if reduced_hp <= 0:
 		hp = 0
-		died.emit()
+		died.emit(attacker.name)
 	else:
 		hp = reduced_hp
 
 	var timestamp: float = Time.get_unix_time_from_system()
 
 	# Sync the new hp to the owner of this component
-	_stats_synchronizer_rpc.sync_hurt(_player.peer_id, _player.name, timestamp, hp, damage)
+	_stats_synchronizer_rpc.sync_hurt(
+		_player.peer_id, _player.name, timestamp, attacker.name, hp, damage
+	)
 
 	# And to everyone looking at this owner
 	for player in network_view_synchronizer.players_in_view:
-		_stats_synchronizer_rpc.sync_hurt(player.peer_id, _player.name, timestamp, hp, damage)
+		_stats_synchronizer_rpc.sync_hurt(
+			player.peer_id, _player.name, timestamp, attacker.name, hp, damage
+		)
 
-	hurt.emit(damage)
+	hurt.emit(attacker.name, damage)
 
 
 func server_reset_hp():
@@ -143,9 +147,15 @@ func server_reset_hp():
 	hp_reset.emit(hp)
 
 
-func client_sync_hurt(timestamp: float, new_hp: int, damage: int):
+func client_sync_hurt(timestamp: float, attacker_name: String, new_hp: int, damage: int):
 	_server_buffer.append(
-		{"type": SYNC_MESSAGE_TYPE.HURT, "timestamp": timestamp, "hp": new_hp, "damage": damage}
+		{
+			"type": SYNC_MESSAGE_TYPE.HURT,
+			"timestamp": timestamp,
+			"attacker": attacker_name,
+			"hp": new_hp,
+			"damage": damage
+		}
 	)
 
 

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ob6cwyu2qcak"]
+
+[ext_resource type="Script" path="res://components/map/RoundSynchronizer/RoundSynchronizer.gd" id="1_w1bnd"]
+
+[node name="RoundSynchronizer" type="Node"]
+script = ExtResource("1_w1bnd")

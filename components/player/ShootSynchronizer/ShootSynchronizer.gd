@@ -137,7 +137,7 @@ func _fire_gun(_shot_position: Vector3, _shot_basis: Basis):
 		return
 
 	# TODO: cleanup this case
-	_shoot_synchronizer_rpc.sync_hit_to_server(collider.name, gun.damage)
+	_shoot_synchronizer_rpc.sync_hit_to_server(collider.name, _player.name, gun.damage)
 
 
 # Called on server-side
