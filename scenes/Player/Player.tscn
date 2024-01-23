@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bwo30wk4cqauq"]
+[gd_scene load_steps=32 format=3 uid="uid://bwo30wk4cqauq"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.gd" id="1_20s56"]
 [ext_resource type="PackedScene" uid="uid://c1pe5e8s8bnw8" path="res://components/player/PlayerClientAuthorityController/PlayerClientAuthorityController.tscn" id="2_qb1yo"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://fcefhv1c7m1r" path="res://components/player/MouseGrabber/MouseGrabber.tscn" id="5_8h8gt"]
 [ext_resource type="PackedScene" uid="uid://v8ye6ytjgkmq" path="res://components/player/ShootSynchronizer/ShootSynchronizer.tscn" id="6_3lq5d"]
 [ext_resource type="PackedScene" uid="uid://ccj2wplepki86" path="res://scenes/Player/Model/Model.tscn" id="7_0a1mn"]
+[ext_resource type="PackedScene" uid="uid://c3457hde0drqk" path="res://components/player/RespawnSycnhronizer/RespawnSynchronizer.tscn" id="7_04geg"]
 [ext_resource type="Texture2D" uid="uid://ctatvl4hjrag6" path="res://assets/kenney_animated-characters-1/Skins/Source/zombieC.svg" id="8_ncejb"]
 [ext_resource type="PackedScene" uid="uid://cmypcs2ymfivv" path="res://scenes/BarrelExit/BarrelExit.tscn" id="8_pk2qo"]
 [ext_resource type="PackedScene" uid="uid://cm62ocpj1igjn" path="res://scenes/Player/UI.tscn" id="8_wmek2"]
@@ -265,10 +266,15 @@ stats_synchronizer = NodePath("../StatsSynchronizer")
 [node name="PositionSynchronizer" parent="." node_paths=PackedStringArray("network_view_synchronizer") instance=ExtResource("4_b38xa")]
 network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 
-[node name="ShootSynchronizer" parent="." node_paths=PackedStringArray("gun", "barrel_exit", "hit_ray") instance=ExtResource("6_3lq5d")]
+[node name="ShootSynchronizer" parent="." node_paths=PackedStringArray("gun", "stats_synchronizer", "barrel_exit", "hit_ray") instance=ExtResource("6_3lq5d")]
 gun = NodePath("../Head/Hands/Root/Skeleton3D/Uzi/Uzi")
+stats_synchronizer = NodePath("../StatsSynchronizer")
 barrel_exit = NodePath("../Head/BarrelExit")
 hit_ray = NodePath("../Head/HitRayCast3D")
+
+[node name="RespawnSynchronizer" parent="." node_paths=PackedStringArray("stats_synchronizer", "network_view_synchronizer") instance=ExtResource("7_04geg")]
+stats_synchronizer = NodePath("../StatsSynchronizer")
+network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 
 [node name="MouseGrabber" parent="." instance=ExtResource("5_8h8gt")]
 
@@ -707,7 +713,7 @@ skin = SubResource("Skin_kmnma")
 surface_material_override/0 = SubResource("StandardMaterial3D_l6hp1")
 
 [node name="Uzi" type="BoneAttachment3D" parent="Head/Hands/Root/Skeleton3D"]
-transform = Transform3D(0.181265, 0.0332587, -0.982871, -0.978969, 0.101238, -0.177118, 0.0936041, 0.994313, 0.0509021, -0.335744, 2.00331, 0.614754)
+transform = Transform3D(0.181265, 0.0332599, -0.982871, -0.978969, 0.101239, -0.177117, 0.0936048, 0.994313, 0.0509034, -0.335743, 2.0033, 0.614753)
 bone_name = "RightHand"
 bone_idx = 40
 

@@ -67,6 +67,8 @@ func _sync_shot_to_player(n: String, t: float, p: Vector3, b: Basis):
 	if player == null:
 		return
 
+	assert(player.shoot_synchronizer != null, "shoot_synchronizer is null")
+
 	player.shoot_synchronizer.client_sync_shot(t, p, b)
 
 
@@ -95,5 +97,7 @@ func _sync_hit_to_server(n: String, d: int):
 
 	if player == null:
 		return
+
+	assert(player.shoot_synchronizer != null, "shoot_synchronizer is null")
 
 	player.stats_synchronizer.server_hurt(d)

@@ -99,7 +99,15 @@ func _check_server_buffer():
 			_server_buffer.remove_at(i)
 
 
+func is_dead():
+	return hp <= 0
+
+
 func server_hurt(damage: int):
+	# Don't hurt the death
+	if is_dead():
+		return
+
 	var reduced_hp: int = hp - damage
 	# You died
 	if reduced_hp <= 0:

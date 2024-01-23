@@ -79,8 +79,6 @@ func _ready():
 		# Don't handle input or run physics process on the server-side.
 		set_process_input(false)
 		set_physics_process(false)
-
-		stats_synchronizer.died.connect(_on_server_died)
 		return
 
 	# Client-side code.
@@ -93,11 +91,13 @@ func _ready():
 			queue_free()
 			return
 
-		stats_synchronizer.died.connect(_on_client_died)
-
 
 # Handles mouse motion input to rotate the player and look up and down.
 func _input(event):
+	# Don't handle input if dead
+	if stats_synchronizer.is_dead():
+		return
+
 	if event is InputEventMouseMotion:
 		# Rotate the player around the axis.
 		_player.rotate_y(deg_to_rad(-event.relative.x * mouse_sensitivity))
@@ -111,6 +111,10 @@ func _input(event):
 
 # Handles physics processing to apply gravity, jump, and movement.
 func _physics_process(delta):
+	# Don't move around if dead
+	if stats_synchronizer.is_dead():
+		return
+
 	# Apply gravity if the player is not on the floor (in air).
 	if not _player.is_on_floor():
 		_player.velocity.y -= gravity * delta
@@ -163,15 +167,3 @@ func server_sync_position(timestamp: float, pos: Vector3, rot: float, head: floa
 	_player.position = pos
 	_player.rotation.y = rot
 	_player.head.rotation.x = head
-
-
-func _on_server_died():
-	await get_tree().create_timer(3).timeout
-
-	stats_synchronizer.server_reset_hp()
-
-
-func _on_client_died():
-	await get_tree().create_timer(3).timeout
-
-	_player.position = _player.multiplayer_connection.map.get_random_spawn_location()

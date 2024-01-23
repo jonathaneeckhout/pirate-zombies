@@ -13,6 +13,8 @@ var player_client_authority_controller: PlayerClientAuthorityController = $Playe
 
 @onready var shoot_synchronizer: ShootSynchronizer = $ShootSynchronizer
 
+@onready var respawn_synchronizer: RespawnSynchronizer = $RespawnSynchronizer
+
 
 func _ready():
 	super()

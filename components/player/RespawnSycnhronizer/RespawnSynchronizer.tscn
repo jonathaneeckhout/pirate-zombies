@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3457hde0drqk"]
+
+[ext_resource type="Script" path="res://components/player/RespawnSycnhronizer/RespawnSynchronizer.gd" id="1_5ctmd"]
+
+[node name="RespawnSynchronizer" type="Node"]
+script = ExtResource("1_5ctmd")
