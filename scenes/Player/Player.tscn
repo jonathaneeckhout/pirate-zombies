@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bwo30wk4cqauq"]
+[gd_scene load_steps=34 format=3 uid="uid://bwo30wk4cqauq"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.gd" id="1_20s56"]
 [ext_resource type="PackedScene" uid="uid://c1pe5e8s8bnw8" path="res://components/player/PlayerClientAuthorityController/PlayerClientAuthorityController.tscn" id="2_qb1yo"]
@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://cmypcs2ymfivv" path="res://scenes/BarrelExit/BarrelExit.tscn" id="8_pk2qo"]
 [ext_resource type="PackedScene" uid="uid://cm62ocpj1igjn" path="res://scenes/Player/UI.tscn" id="8_wmek2"]
 [ext_resource type="PackedScene" uid="uid://dog6qgrarkxcw" path="res://scenes/guns/Uzi/Uzi.tscn" id="9_8panr"]
+[ext_resource type="PackedScene" uid="uid://mpjgtqx03vc0" path="res://components/player/ScoreWatcher/ScoreWatcher.tscn" id="9_q8arb"]
 [ext_resource type="Animation" uid="uid://cxpxih6ntosgu" path="res://assets/kenney_animated-characters-1/Animations/hands/idle.res" id="10_smlhv"]
 [ext_resource type="Animation" uid="uid://bnnht4mixmiyt" path="res://assets/kenney_animated-characters-1/Animations/hands/jump.res" id="11_6pa2u"]
 [ext_resource type="Animation" uid="uid://d2gpp4p0n33l5" path="res://assets/kenney_animated-characters-1/Animations/hands/run-back.res" id="12_qkl1h"]
@@ -277,6 +278,9 @@ hit_ray = NodePath("../Head/HitRayCast3D")
 stats_synchronizer = NodePath("../StatsSynchronizer")
 network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 tombstone_scene = ExtResource("8_lt0j2")
+
+[node name="ScoreWatcher" parent="." node_paths=PackedStringArray("stats_synchronizer") instance=ExtResource("9_q8arb")]
+stats_synchronizer = NodePath("../StatsSynchronizer")
 
 [node name="MouseGrabber" parent="." instance=ExtResource("5_8h8gt")]
 

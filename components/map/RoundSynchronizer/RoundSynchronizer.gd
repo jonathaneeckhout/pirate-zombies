@@ -76,7 +76,10 @@ func _on_round_timer_timeout():
 
 	round_won_by.emit(winner)
 
-	scores = {}
+	# Reset the scores
+	for player_name in scores:
+		scores[player_name]["kills"] = 0
+		scores[player_name]["deaths"] = 0
 
 
 func _on_server_player_added(username: String, _peer_id: int):
