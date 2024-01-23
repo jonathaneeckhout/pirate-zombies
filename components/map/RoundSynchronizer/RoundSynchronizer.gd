@@ -2,6 +2,7 @@ extends Node
 
 class_name RoundSynchronizer
 
+signal scores_updated
 signal round_won_by(player_name: String)
 
 @export var round_time: float = 300.0
@@ -13,6 +14,8 @@ var scores: Dictionary = {}
 var _map: Map = null
 
 var _player_spawn_synchronizer: PlayerSpawnerSynchronizer = null
+
+var _round_synchronizer_rpc: RoundSynchronizerRPC = null
 
 
 # Called when the node enters the scene tree for the first time.
@@ -27,6 +30,12 @@ func _ready():
 	))
 
 	assert(_player_spawn_synchronizer != null, "Failed to get PlayerSpawnerSynchronizer component")
+
+	_round_synchronizer_rpc = (_map.multiplayer_connection.component_list.get_component(
+		RoundSynchronizerRPC.COMPONENT_NAME
+	))
+
+	assert(_round_synchronizer_rpc != null, "Failed to get RoundSynchronizerRPC component")
 
 	round_timer = Timer.new()
 	round_timer.name = "RoundTimer"
@@ -45,19 +54,41 @@ func _ready():
 		_player_spawn_synchronizer.server_player_added.connect(_on_server_player_added)
 		_player_spawn_synchronizer.server_player_removed.connect(_on_server_player_removed)
 
+	# Client-side logic
+	else:
+		#Wait until the connection is ready to synchronize stats
+		if not multiplayer.has_multiplayer_peer():
+			await multiplayer.connected_to_server
 
-func add_kill(player_name: String):
-	if not scores.has(player_name):
+		#Wait an additional frame so others can get set.
+		await get_tree().process_frame
+
+		#Some entities take a bit to get added to the tree, do not update them until then.
+		if not is_inside_tree():
+			await tree_entered
+
+
+func add_score(player_name_with_kill: String, player_name_with_death: String):
+	if not scores.has(player_name_with_kill):
 		return
 
-	scores[player_name]["kills"] += 1
-
-
-func add_death(player_name: String):
-	if not scores.has(player_name):
+	if not scores.has(player_name_with_death):
 		return
 
-	scores[player_name]["deaths"] += 1
+	scores[player_name_with_kill]["kills"] += 1
+	scores[player_name_with_death]["deaths"] += 1
+
+	scores_updated.emit()
+
+
+func client_sync_scores():
+	_round_synchronizer_rpc.client_sync_scores()
+
+
+func client_sync_response(data: Dictionary):
+	scores = data
+
+	scores_updated.emit()
 
 
 func _get_winner() -> String:

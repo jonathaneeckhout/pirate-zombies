@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cm62ocpj1igjn"]
+[gd_scene load_steps=6 format=3 uid="uid://cm62ocpj1igjn"]
 
 [ext_resource type="Texture2D" uid="uid://dkxngiw0jxwth" path="res://assets/crosshairpack_kenney/White/crosshair007.png" id="1_fpg57"]
 [ext_resource type="Script" path="res://scenes/Player/UI.gd" id="1_tur4d"]
 [ext_resource type="Texture2D" uid="uid://7c0d2qjbf8yg" path="res://assets/healthbar/scaled/BarGlass.png" id="3_2sw02"]
 [ext_resource type="Texture2D" uid="uid://dguocpjsk6147" path="res://assets/healthbar/scaled/GreenBar.png" id="4_v6hfm"]
+[ext_resource type="PackedScene" uid="uid://b17vw0l5k7b4d" path="res://scenes/ui/ScorePanel/ScorePanel.tscn" id="5_1fvi3"]
 
 [node name="UI" type="CanvasLayer"]
 script = ExtResource("1_tur4d")
@@ -45,3 +46,6 @@ offset_right = 86.0
 offset_bottom = 23.0
 grow_horizontal = 2
 text = "Round Time left: 5:00"
+
+[node name="ScorePanel" parent="." instance=ExtResource("5_1fvi3")]
+visible = false

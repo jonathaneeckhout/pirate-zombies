@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cmhcx5f4pdw4m"]
+
+[ext_resource type="Script" path="res://components/map/RoundSynchronizer/RoundSynchronizerRPC.gd" id="1_lcqih"]
+
+[node name="RoundSynchronizerRpc" type="Node"]
+script = ExtResource("1_lcqih")

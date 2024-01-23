@@ -25,5 +25,4 @@ func _ready():
 
 
 func _on_died(killer_name: String):
-	_player.multiplayer_connection.map.round_synchronizer.add_kill(killer_name)
-	_player.multiplayer_connection.map.round_synchronizer.add_death(_player.name)
+	_player.multiplayer_connection.map.round_synchronizer.add_score(killer_name, _player.name)

@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+class_name UICanvas
+
 @export var player: Player = null
 
 @export var stats_synchronizer: StatsSynchronizer = null
