@@ -126,6 +126,10 @@ func _on_server_player_removed(username: String):
 
 
 func _on_client_player_added(username: String, pos: Vector3, own_player: bool):
+	if players.has_node(username):
+		GodotLogger.info("Player=[%s] already exists, no need to add again" % username)
+		return
+
 	GodotLogger.info("Adding player=[%s] to the map" % username)
 
 	var new_player: Player = player_scene.instantiate()
