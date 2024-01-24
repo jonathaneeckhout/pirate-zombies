@@ -55,6 +55,17 @@ func websocket_client_start(url: String = client_server_url) -> bool:
 	return true
 
 
+## Disconnect the client from the server
+func websocket_client_disconnect():
+	GodotLogger.info("Disconnecting client from server")
+
+	_client_cleanup()
+
+	if _client != null:
+		_client.close()
+		_client = null
+
+
 ## Init the websocket server
 func websocket_server_init() -> bool:
 	GodotLogger.info("Initializing the websocket server")

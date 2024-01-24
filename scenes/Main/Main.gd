@@ -107,7 +107,7 @@ func _start_client():
 	if not connected:
 		GodotLogger.warn("Failed to connect to server")
 
-		_websocket_multiplayer_connection.disconnect_client()
+		_websocket_multiplayer_connection.websocket_client_disconnect()
 
 		# Show the ui again  so that the player can try again
 		_websocket_login_panel.show()
@@ -143,7 +143,7 @@ func _login_to_server(username: String, password: String):
 	if not response:
 		GodotLogger.warn("Failed to authenticate to server")
 
-		_websocket_multiplayer_connection.disconnect_client()
+		_websocket_multiplayer_connection.websocket_client_disconnect()
 
 		# Show the ui again  so that the player can try again
 		_client_login_panel.show()
