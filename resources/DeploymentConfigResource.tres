@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ConfigResource" load_steps=2 format=3 uid="uid://ccaxbr1d4ptmx"]
+
+[ext_resource type="Script" path="res://resources/definitions/ConfigResource.gd" id="1_wupow"]
+
+[resource]
+script = ExtResource("1_wupow")
+mode = 1
+use_tls = true
+server_port = 9081
+server_fps = 30
+certh_path = "/etc/letsencrypt/live/jdungeon.org/fullchain.pem"
+key_path = "/etc/letsencrypt/live/jdungeon.org/privkey.pem"
+server_address = "wss://jdungeon.org:9081"
+client_fps = 30

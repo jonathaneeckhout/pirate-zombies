@@ -78,16 +78,8 @@ func _client_sync_round_clock():
 	if user == null:
 		return
 
-	# Ignore the call if the user is not logged in.
-	if not user.logged_in:
-		return
-
-	# Ignore the call if the user's player is not initialized.
-	if user.player == null:
-		return
-
 	server_sync_round_clock_response(
-		user.player.peer_id,
+		id,
 		Time.get_unix_time_from_system(),
 		_multiplayer_connection.map.round_synchronizer.round_timer.time_left
 	)

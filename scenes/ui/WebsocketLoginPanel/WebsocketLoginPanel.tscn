@@ -37,18 +37,6 @@ layout_mode = 2
 text = "Server Information:"
 horizontal_alignment = 1
 
-[node name="ServerPort" type="LineEdit" parent="PanelContainer/VBoxContainer/ServerVBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-placeholder_text = "Server Port"
-alignment = 1
-
-[node name="ServerBindAddress" type="LineEdit" parent="PanelContainer/VBoxContainer/ServerVBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-placeholder_text = "Server Bind Address"
-alignment = 1
-
 [node name="RunAsServerButton" type="Button" parent="PanelContainer/VBoxContainer/ServerVBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
@@ -62,31 +50,7 @@ layout_mode = 2
 text = "Client Information:"
 horizontal_alignment = 1
 
-[node name="ServerAddress" type="LineEdit" parent="PanelContainer/VBoxContainer/ClientVBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-placeholder_text = "Server Address"
-alignment = 1
-
-[node name="Username" type="LineEdit" parent="PanelContainer/VBoxContainer/ClientVBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-placeholder_text = "Username"
-alignment = 1
-
-[node name="Password" type="LineEdit" parent="PanelContainer/VBoxContainer/ClientVBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-placeholder_text = "Password"
-alignment = 1
-secret = true
-
 [node name="RunAsClientButton" type="Button" parent="PanelContainer/VBoxContainer/ClientVBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Press to Login to Server"
-
-[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer/ClientVBoxContainer"]
-layout_mode = 2
-text = "Leave the username empty generate a random name"
-fit_content = true

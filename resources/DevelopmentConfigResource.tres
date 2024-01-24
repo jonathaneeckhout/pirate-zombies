@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ConfigResource" load_steps=2 format=3 uid="uid://dnefumhibp030"]
+
+[ext_resource type="Script" path="res://resources/definitions/ConfigResource.gd" id="1_pslfk"]
+
+[resource]
+script = ExtResource("1_pslfk")
+mode = 0
+use_tls = false
+server_port = 9081
+server_fps = 30
+certh_path = ""
+key_path = ""
+server_address = "ws://localhost:9081"
+client_fps = 30
