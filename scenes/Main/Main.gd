@@ -28,7 +28,7 @@ func _ready():
 	_client_login_panel.joine_game_pressed.connect(_on_join_game_pressed)
 
 	if config.mode == ConfigResource.MODE.DEPLOYMENT:
-		if "--server" in OS.get_cmdline_user_args():
+		if "--server" in OS.get_cmdline_args():
 			_start_server()
 		else:
 			_start_client()
