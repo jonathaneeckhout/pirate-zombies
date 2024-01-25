@@ -6,6 +6,7 @@
 script = ExtResource("1_wupow")
 mode = 1
 use_tls = true
+server_bind_address = "*"
 server_port = 9081
 server_fps = 30
 certh_path = "/etc/letsencrypt/live/jdungeon.org/fullchain.pem"

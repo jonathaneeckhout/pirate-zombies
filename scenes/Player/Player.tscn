@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bwo30wk4cqauq"]
+[gd_scene load_steps=35 format=3 uid="uid://bwo30wk4cqauq"]
 
 [ext_resource type="Script" path="res://scenes/Player/Player.gd" id="1_20s56"]
 [ext_resource type="PackedScene" uid="uid://c1pe5e8s8bnw8" path="res://components/player/PlayerClientAuthorityController/PlayerClientAuthorityController.tscn" id="2_qb1yo"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://v8ye6ytjgkmq" path="res://components/player/ShootSynchronizer/ShootSynchronizer.tscn" id="6_3lq5d"]
 [ext_resource type="PackedScene" uid="uid://ccj2wplepki86" path="res://scenes/Player/Model/Model.tscn" id="7_0a1mn"]
 [ext_resource type="PackedScene" uid="uid://c3457hde0drqk" path="res://components/player/RespawnSycnhronizer/RespawnSynchronizer.tscn" id="7_04geg"]
+[ext_resource type="PackedScene" uid="uid://domippfdo5erm" path="res://scenes/particles/hitscanparticle/HitScanParticle.tscn" id="7_rehey"]
 [ext_resource type="PackedScene" uid="uid://cs7jr7salnljl" path="res://scenes/TombStone/TombStone.tscn" id="8_lt0j2"]
 [ext_resource type="Texture2D" uid="uid://ctatvl4hjrag6" path="res://assets/kenney_animated-characters-1/Skins/Source/zombieC.svg" id="8_ncejb"]
 [ext_resource type="PackedScene" uid="uid://cmypcs2ymfivv" path="res://scenes/BarrelExit/BarrelExit.tscn" id="8_pk2qo"]
@@ -255,6 +256,7 @@ _data = {
 viewport_path = NodePath("SubViewport")
 
 [node name="Player" type="CharacterBody3D"]
+collision_mask = 3
 script = ExtResource("1_20s56")
 
 [node name="NetworkViewSynchronizer" parent="." instance=ExtResource("3_khkji")]
@@ -273,6 +275,7 @@ gun = NodePath("../Head/Hands/Root/Skeleton3D/Uzi/Uzi")
 stats_synchronizer = NodePath("../StatsSynchronizer")
 barrel_exit = NodePath("../Head/BarrelExit")
 hit_ray = NodePath("../Head/HitRayCast3D")
+hit_scan_particle = ExtResource("7_rehey")
 
 [node name="RespawnSynchronizer" parent="." node_paths=PackedStringArray("stats_synchronizer", "network_view_synchronizer") instance=ExtResource("7_04geg")]
 stats_synchronizer = NodePath("../StatsSynchronizer")

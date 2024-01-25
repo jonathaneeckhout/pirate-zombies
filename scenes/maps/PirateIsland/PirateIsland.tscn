@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://544kggxrcwmy"]
+[gd_scene load_steps=25 format=3 uid="uid://544kggxrcwmy"]
 
 [ext_resource type="Script" path="res://scenes/maps/PirateIsland/PirateIsland.gd" id="1_eldty"]
 [ext_resource type="PackedScene" uid="uid://bwo30wk4cqauq" path="res://scenes/Player/Player.tscn" id="2_bx57r"]
@@ -9,6 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://dk1u1xwscfejx" path="res://scenes/terrain/Rock_1/Rock_1.tscn" id="6_jr4o1"]
 [ext_resource type="PackedScene" uid="uid://klq7ifposv0b" path="res://scenes/terrain/PalmTree_1/PalmTree_1.tscn" id="7_ildcc"]
 [ext_resource type="PackedScene" uid="uid://co0aw2wpeffm8" path="res://scenes/RespawnLocation/RespawnLocation.tscn" id="8_75dsa"]
+[ext_resource type="PackedScene" uid="uid://y2g0kijcdvvb" path="res://scenes/terrain/Chest/Chest.tscn" id="9_qdnh5"]
+[ext_resource type="PackedScene" uid="uid://cc7icn3p5nva0" path="res://scenes/terrain/Cannon/Cannon.tscn" id="11_s3ek7"]
+[ext_resource type="PackedScene" uid="uid://cxe12dawx17gy" path="res://scenes/terrain/Tent/Tent.tscn" id="12_1pa34"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_iswbb"]
 top_radius = 30.0
@@ -152,9 +155,43 @@ mesh = SubResource("TorusMesh_gtoee")
 skeleton = NodePath("../..")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="Layout/InvisibleWall"]
+collision_layer = 2
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Layout/InvisibleWall/StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_pawmm")
+
+[node name="Objects" type="Node3D" parent="Layout"]
+
+[node name="Chest" parent="Layout/Objects" instance=ExtResource("9_qdnh5")]
+transform = Transform3D(0.163326, 0, 0.986572, 0, 1, 0, -0.986572, 0, 0.163326, -19.898, 1.5, -8.039)
+
+[node name="Chest2" parent="Layout/Objects" instance=ExtResource("9_qdnh5")]
+transform = Transform3D(0.729112, 0, 0.684394, 0, 1, 0, -0.684394, 0, 0.729112, 13.5216, 1.5, 15.7337)
+
+[node name="Chest3" parent="Layout/Objects" instance=ExtResource("9_qdnh5")]
+transform = Transform3D(0.985148, 0, 0.171706, 0, 1, 0, -0.171706, 0, 0.985148, 4.92962, 1.5, -23.9852)
+
+[node name="Cannon" parent="Layout/Objects" instance=ExtResource("11_s3ek7")]
+transform = Transform3D(0.86422, 0.0558866, -0.5, -0.0645323, 0.997916, 0, 0.498958, 0.0322662, 0.866025, 0.646, 7.4, -1.353)
+
+[node name="Cannon4" parent="Layout/Objects" instance=ExtResource("11_s3ek7")]
+transform = Transform3D(-0.863217, -0.0558217, 0.501737, -0.0645323, 0.997916, -1.86265e-09, -0.500691, -0.0323783, -0.86502, -1.82384, 7.43861, 2.67255)
+
+[node name="Cannon2" parent="Layout/Objects" instance=ExtResource("11_s3ek7")]
+transform = Transform3D(-0.86422, -0.0558866, -0.5, -0.0645323, 0.997916, 0, 0.498958, 0.0322662, -0.866025, 0.571965, 9.6, 2.76284)
+
+[node name="Cannon3" parent="Layout/Objects" instance=ExtResource("11_s3ek7")]
+transform = Transform3D(-0.0137067, -0.000886381, 0.999906, -0.0645323, 0.997916, 1.86265e-09, -0.997822, -0.0645262, -0.0137354, -3.06349, 9.6, 0.584512)
+
+[node name="Tent" parent="Layout/Objects" instance=ExtResource("12_1pa34")]
+transform = Transform3D(0.869426, 0, 0.494063, 0, 1, 0, -0.494063, 0, 0.869426, 16.2499, 1.5, -3.10314)
+
+[node name="Tent2" parent="Layout/Objects" instance=ExtResource("12_1pa34")]
+transform = Transform3D(0.0831213, 0, -0.996539, 0, 1, 0, 0.996539, 0, 0.0831213, -0.342812, 1.5, 21.2194)
+
+[node name="Tent3" parent="Layout/Objects" instance=ExtResource("12_1pa34")]
+transform = Transform3D(0.0831213, 0, -0.996539, 0, 1, 0, 0.996539, 0, 0.0831213, -19.4888, 1.5, -1.30791)
 
 [node name="Lights" type="Node3D" parent="."]
 

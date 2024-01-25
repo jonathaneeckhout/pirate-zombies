@@ -21,6 +21,8 @@ signal shoot
 ## Key used to trigger the shot
 @export var shoot_key: String = "shoot"
 
+@export var hit_scan_particle: Resource = null
+
 # Reference to the parent node (assumed to be a Player node).
 var _player: Player = null
 
@@ -128,6 +130,12 @@ func _fire_gun(_shot_position: Vector3, _shot_basis: Basis):
 
 	if not hit_ray.is_colliding():
 		return
+
+	if hit_scan_particle != null:
+		var collision_point: Vector3 = hit_ray.get_collision_point()
+		var particle: Sprite3D = hit_scan_particle.instantiate()
+		particle.position = collision_point
+		_player.multiplayer_connection.map.projectiles.add_child(particle)
 
 	var collider: Object = hit_ray.get_collider()
 

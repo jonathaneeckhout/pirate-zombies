@@ -6,6 +6,7 @@
 script = ExtResource("1_pslfk")
 mode = 0
 use_tls = false
+server_bind_address = "*"
 server_port = 9081
 server_fps = 30
 certh_path = ""

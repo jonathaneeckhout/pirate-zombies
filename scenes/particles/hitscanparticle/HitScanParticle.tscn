@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://domippfdo5erm"]
+
+[ext_resource type="Texture2D" uid="uid://bpqt5r4frwsvk" path="res://assets/kenney_particle-pack/PNG (Transparent)/scorch_01.png" id="1_hmo7l"]
+[ext_resource type="Script" path="res://scenes/particles/hitscanparticle/HitScanParticle.gd" id="2_r6er5"]
+
+[node name="HitScanParticle" type="Sprite3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+modulate = Color(0, 0, 0, 1)
+billboard = 2
+texture = ExtResource("1_hmo7l")
+script = ExtResource("2_r6er5")
