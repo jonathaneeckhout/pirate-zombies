@@ -3,9 +3,9 @@ extends Node3D
 class_name PositionSynchronizer
 
 ## Constants for interpolation
-const INTERPOLATION_OFFSET: float = 0.05
+@export var interpolation_offset: float = 0.01
 ## Constants for interpolation
-const INTERPOLATION_INDEX: float = 2
+@export var interpolation_index: float = 1.0
 
 ## Reference to the NetworkViewSynchronizer component
 @export var network_view_synchronizer: NetworkViewSynchronizer
@@ -73,16 +73,16 @@ func _physics_process(_delta):
 
 func _calculate_position():
 	# Calculate the time the player will actually see the entity
-	var render_time = _clock_synchronizer.client_clock - INTERPOLATION_OFFSET
+	var render_time = _clock_synchronizer.client_clock - interpolation_offset
 
 	# Remove older messages out of the interpolation range
 	while (
-		_server_buffer.size() > 2 and render_time > _server_buffer[INTERPOLATION_INDEX]["timestamp"]
+		_server_buffer.size() > 2 and render_time > _server_buffer[interpolation_index]["timestamp"]
 	):
 		_server_buffer.remove_at(0)
 
 	# If you have enough recent sync messages, interpolate to get smooth movement visualization
-	if _server_buffer.size() > INTERPOLATION_INDEX:
+	if _server_buffer.size() > interpolation_index:
 		var interpolation_factor = _calculate_interpolation_factor(render_time)
 		_player.position = _interpolate(interpolation_factor, "position")
 		_player.rotation = _interpolate(interpolation_factor, "rotation")
@@ -90,8 +90,8 @@ func _calculate_position():
 
 	# If you don't have enough recent sync messages, extrapolate to get smooth movement visualization
 	elif (
-		_server_buffer.size() > INTERPOLATION_INDEX - 1
-		and render_time > _server_buffer[INTERPOLATION_INDEX - 1]["timestamp"]
+		_server_buffer.size() > interpolation_index - 1
+		and render_time > _server_buffer[interpolation_index - 1]["timestamp"]
 	):
 		var extrapolation_factor = _calculate_extrapolation_factor(render_time)
 		_player.position = _extrapolate(extrapolation_factor, "position")
@@ -101,11 +101,11 @@ func _calculate_position():
 
 func _calculate_interpolation_factor(render_time: float) -> float:
 	var interpolation_factor = (
-		float(render_time - _server_buffer[INTERPOLATION_INDEX - 1]["timestamp"])
+		float(render_time - _server_buffer[interpolation_index - 1]["timestamp"])
 		/ float(
 			(
-				_server_buffer[INTERPOLATION_INDEX]["timestamp"]
-				- _server_buffer[INTERPOLATION_INDEX - 1]["timestamp"]
+				_server_buffer[interpolation_index]["timestamp"]
+				- _server_buffer[interpolation_index - 1]["timestamp"]
 			)
 		)
 	)
@@ -114,18 +114,18 @@ func _calculate_interpolation_factor(render_time: float) -> float:
 
 
 func _interpolate(interpolation_factor: float, parameter: String) -> Vector3:
-	return _server_buffer[INTERPOLATION_INDEX - 1][parameter].lerp(
-		_server_buffer[INTERPOLATION_INDEX][parameter], interpolation_factor
+	return _server_buffer[interpolation_index - 1][parameter].lerp(
+		_server_buffer[interpolation_index][parameter], interpolation_factor
 	)
 
 
 func _calculate_extrapolation_factor(render_time: float) -> float:
 	var extrapolation_factor = (
-		float(render_time - _server_buffer[INTERPOLATION_INDEX - 2]["timestamp"])
+		float(render_time - _server_buffer[interpolation_index - 2]["timestamp"])
 		/ float(
 			(
-				_server_buffer[INTERPOLATION_INDEX - 1]["timestamp"]
-				- _server_buffer[INTERPOLATION_INDEX - 2]["timestamp"]
+				_server_buffer[interpolation_index - 1]["timestamp"]
+				- _server_buffer[interpolation_index - 2]["timestamp"]
 			)
 		)
 	)
@@ -134,8 +134,8 @@ func _calculate_extrapolation_factor(render_time: float) -> float:
 
 
 func _extrapolate(extrapolation_factor: float, parameter: String) -> Vector3:
-	return _server_buffer[INTERPOLATION_INDEX - 2][parameter].lerp(
-		_server_buffer[INTERPOLATION_INDEX - 1][parameter], extrapolation_factor
+	return _server_buffer[interpolation_index - 2][parameter].lerp(
+		_server_buffer[interpolation_index - 1][parameter], extrapolation_factor
 	)
 
 

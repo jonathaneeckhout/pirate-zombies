@@ -147,16 +147,24 @@ func server_reset_hp():
 	hp_reset.emit(hp)
 
 
-func client_sync_hurt(timestamp: float, attacker_name: String, new_hp: int, damage: int):
-	_server_buffer.append(
-		{
-			"type": SYNC_MESSAGE_TYPE.HURT,
-			"timestamp": timestamp,
-			"attacker": attacker_name,
-			"hp": new_hp,
-			"damage": damage
-		}
-	)
+func client_sync_hurt(_timestamp: float, attacker_name: String, new_hp: int, damage: int):
+	hp = new_hp
+
+	hurt.emit(attacker_name, damage)
+
+	if hp <= 0:
+		died.emit(attacker_name)
+
+	# For now just apply damage imediately
+	# _server_buffer.append(
+	# 	{
+	# 		"type": SYNC_MESSAGE_TYPE.HURT,
+	# 		"timestamp": timestamp,
+	# 		"attacker": attacker_name,
+	# 		"hp": new_hp,
+	# 		"damage": damage
+	# 	}
+	# )
 
 
 func client_reset_hp(timestamp: float, new_hp: int):

@@ -86,6 +86,7 @@ func _physics_process(_delta):
 func _handle_own_player():
 	# Don't shoot if dead
 	if stats_synchronizer.is_dead():
+		_shooting = false
 		return
 
 	if Input.is_action_just_pressed(shoot_key):
