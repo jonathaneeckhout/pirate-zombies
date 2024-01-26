@@ -1,9 +1,14 @@
 ![](https://dcbadge.vercel.app/api/shield/581535100852895744)
 
-# Pirate Zobmies
+# Pirate Zombies
 Greetings, welcome to "Zombie Pirates" - a multiplayer FPS game that offers a unique twist. In this maritime realm, you embody the undead as you navigate through a treasure-laden island, engaging in fierce shootouts with other players.
 
 Embark on this subtle yet engaging journey, where the undead roam and the thrill of the high seas awaits. 
+
+## Goal of the game
+The goal of the game is to learn how to create a 3D multiplayer FPS game. 
+
+Feel free to use this project as an example for your games but make sure to reference me (Check license: [BSD 2-Clause License](LICENSE)).
 
 ## Play the game
 
