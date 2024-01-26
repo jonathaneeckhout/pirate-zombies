@@ -1,12 +1,10 @@
-extends Control
+extends VBoxContainer
 
 const GROUPS: Dictionary = {
 	"Global": {"color": "WHITE"}, "Local": {"color": "LIGHT_BLUE"}, "Whisper": {"color": "VIOLET"}
 }
 
-var _current_group: String = "Global"
 var _username: String = "player"
-var _wisper_target: String = ""
 
 var _delay_timer: Timer
 
@@ -14,11 +12,9 @@ var _ui: UICanvas = null
 
 var _chat_rpc: ChatRPC = null
 
-@onready var chat_log: RichTextLabel = $VBoxContainer/Logs/ChatLog
-@onready var log_log: RichTextLabel = $VBoxContainer/Logs/LogLog
+@onready var chat_log: RichTextLabel = $ChatLog
 
-@onready var input_label: Label = $VBoxContainer/HBoxContainer/Label
-@onready var input_field: LineEdit = $VBoxContainer/HBoxContainer/LineEdit
+@onready var input_field: LineEdit = $LineEdit
 
 
 func _ready():
@@ -35,12 +31,7 @@ func _ready():
 
 	input_field.text_submitted.connect(_on_text_submitted)
 
-	change_group("Global")
-
 	_chat_rpc.message_received.connect(_on_message_received)
-
-	$VBoxContainer/SelectButtons/ChatButton.pressed.connect(_on_chat_button_pressed)
-	$VBoxContainer/SelectButtons/LogsButton.pressed.connect(_on_logs_button_pressed)
 
 	_delay_timer = Timer.new()
 	_delay_timer.name = "DelayTimer"
@@ -51,7 +42,7 @@ func _ready():
 
 
 func _input(event):
-	if event.is_action_pressed("ui_accept"):
+	if event.is_action_pressed("chat"):
 		if input_field.has_focus():
 			if input_field.text.strip_edges() == "":
 				# Input is empty and enter is pressed, release focus
@@ -62,21 +53,10 @@ func _input(event):
 			input_field.grab_focus()
 			_ui.active = true
 
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("cancel"):
 		input_field.release_focus()
 		# This timer is needed to prevent race conditions with other ui_cancel listeners
 		_delay_timer.start()
-
-
-func change_group(value: String):
-	_current_group = value
-
-	if _current_group == "Whisper" and _wisper_target != "":
-		input_label.text = "[" + _wisper_target + "]"
-	else:
-		input_label.text = "[" + _current_group + "]"
-
-	input_label.set("theme_override_colors/font_color", Color(GROUPS[_current_group]["color"]))
 
 
 func escape_bbcode(bbcode_text: String) -> String:
@@ -105,20 +85,6 @@ func _on_text_submitted(text: String):
 
 func _on_message_received(from: String, message: String):
 	append_chat_line_escaped(from, message, GROUPS["Global"]["color"])
-
-
-func append_log_line(message: String, color: String = "YELLOW"):
-	log_log.append_text("[color=%s]%s[/color]\n" % [color, escape_bbcode(message)])
-
-
-func _on_chat_button_pressed():
-	chat_log.show()
-	log_log.hide()
-
-
-func _on_logs_button_pressed():
-	chat_log.hide()
-	log_log.show()
 
 
 func _on__delay_timer_timeout():

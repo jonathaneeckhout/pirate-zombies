@@ -27,6 +27,9 @@ func _ready():
 
 
 func _input(event):
+	if _ui.active:
+		return
+
 	if event.is_action_pressed("show_score"):
 		visible = true
 

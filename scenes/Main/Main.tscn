@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/Main/Main.gd" id="1_67vwt"]
 [ext_resource type="PackedScene" uid="uid://bldyf3iyb7r6n" path="res://components/connection/WebsocketMultiplayerConnection/WebsocketMultiplayerConnection.tscn" id="2_2rydi"]
-[ext_resource type="Resource" uid="uid://dnefumhibp030" path="res://resources/DevelopmentConfigResource.tres" id="2_oqo8c"]
+[ext_resource type="Resource" uid="uid://ccaxbr1d4ptmx" path="res://resources/DeploymentConfigResource.tres" id="2_gmu7u"]
 [ext_resource type="PackedScene" uid="uid://544kggxrcwmy" path="res://scenes/maps/PirateIsland/PirateIsland.tscn" id="2_q2txo"]
 [ext_resource type="PackedScene" uid="uid://bm1tdp13topld" path="res://scenes/ui/WebsocketLoginPanel/WebsocketLoginPanel.tscn" id="3_5jer0"]
 [ext_resource type="PackedScene" uid="uid://fp5jjs341obi" path="res://components/connection/ClockSynchronizer/ClockSynchronizer.tscn" id="3_nvv5i"]
@@ -20,7 +20,7 @@
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_67vwt")
-config = ExtResource("2_oqo8c")
+config = ExtResource("2_gmu7u")
 map_scene = ExtResource("2_q2txo")
 
 [node name="WMC" parent="." instance=ExtResource("2_2rydi")]
