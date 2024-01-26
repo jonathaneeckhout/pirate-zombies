@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d38j73wveskl0"]
+
+[ext_resource type="Script" path="res://scenes/ui/chatpanel/ChatRPC.gd" id="1_bg4nx"]
+
+[node name="ChatRpc" type="Node"]
+script = ExtResource("1_bg4nx")

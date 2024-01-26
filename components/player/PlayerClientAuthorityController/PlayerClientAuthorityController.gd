@@ -9,6 +9,8 @@ const COMPONENT_NAME = "PlayerClientAuthorityController"
 
 @export var stats_synchronizer: StatsSynchronizer = null
 
+@export var ui: UICanvas = null
+
 ## Gravity used for the player.
 @export var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -111,6 +113,9 @@ func _input(event):
 
 # Handles physics processing to apply gravity, jump, and movement.
 func _physics_process(delta):
+	if ui != null and ui.active:
+		return
+
 	# Don't move around if dead
 	if stats_synchronizer.is_dead():
 		return

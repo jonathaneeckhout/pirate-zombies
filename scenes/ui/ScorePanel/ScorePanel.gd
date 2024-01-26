@@ -7,15 +7,15 @@ var score_container: VBoxContainer = $VBoxContainer/PanelContainer2/ScrollContai
 
 @onready var _row_scene: Resource = preload("res://scenes/ui/ScorePanel/ScoreRow.tscn")
 
-var ui: UICanvas = null
+var _ui: UICanvas = null
 
 var _poll_score_timer: Timer = null
 
 
 func _ready():
-	ui = get_parent()
+	_ui = get_parent()
 
-	ui.player.multiplayer_connection.map.round_synchronizer.scores_updated.connect(
+	_ui.player.multiplayer_connection.map.round_synchronizer.scores_updated.connect(
 		_on_scores_updated
 	)
 	_poll_score_timer = Timer.new()
@@ -30,7 +30,7 @@ func _input(event):
 	if event.is_action_pressed("show_score"):
 		visible = true
 
-		ui.player.multiplayer_connection.map.round_synchronizer.client_sync_scores()
+		_ui.player.multiplayer_connection.map.round_synchronizer.client_sync_scores()
 
 	elif event.is_action_released("show_score"):
 		visible = false
@@ -41,8 +41,8 @@ func _on_scores_updated():
 	for child in score_container.get_children():
 		child.queue_free()
 
-	for player_name in ui.player.multiplayer_connection.map.round_synchronizer.scores:
-		var score = ui.player.multiplayer_connection.map.round_synchronizer.scores[player_name]
+	for player_name in _ui.player.multiplayer_connection.map.round_synchronizer.scores:
+		var score = _ui.player.multiplayer_connection.map.round_synchronizer.scores[player_name]
 		var row = _row_scene.instantiate()
 		row.name = player_name
 		row.set_values(player_name, score["kills"], score["deaths"])
@@ -51,4 +51,4 @@ func _on_scores_updated():
 
 func _on_poll_score_timer():
 	if visible:
-		ui.player.multiplayer_connection.map.round_synchronizer.client_sync_scores()
+		_ui.player.multiplayer_connection.map.round_synchronizer.client_sync_scores()

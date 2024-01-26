@@ -62,7 +62,7 @@ text = "Controls:
 - \"Space\" to jump
 - \"Left Mouse Button\" to shoot
 - \"H\" to show score
-
-
+- \"ALT\" to grab/release mouse
+- \"ENTER\" to enable/disable chat
 Start blasting!"
 fit_content = true

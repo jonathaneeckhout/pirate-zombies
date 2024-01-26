@@ -10,6 +10,8 @@ class_name UICanvas
 
 @onready var round_time_label: Label = $RoundTimeLabel
 
+var active: bool = false
+
 const bar_green: Resource = preload("res://assets/healthbar/scaled/GreenBar.png")
 const bar_yellow: Resource = preload("res://assets/healthbar/scaled/YellowBar.png")
 const bar_red: Resource = preload("res://assets/healthbar/scaled/RedBar.png")

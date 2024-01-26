@@ -9,6 +9,8 @@ signal shoot
 
 @export var stats_synchronizer: StatsSynchronizer = null
 
+@export var ui: UICanvas = null
+
 ## Marker to indicate the location of where the projectiles will be fired
 @export var barrel_exit: BarrelExit = null
 
@@ -84,6 +86,10 @@ func _physics_process(_delta):
 
 
 func _handle_own_player():
+	if ui != null and ui.active:
+		_shooting = false
+		return
+
 	# Don't shoot if dead
 	if stats_synchronizer.is_dead():
 		_shooting = false

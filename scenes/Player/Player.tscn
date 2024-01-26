@@ -264,15 +264,17 @@ script = ExtResource("1_20s56")
 [node name="StatsSynchronizer" parent="." node_paths=PackedStringArray("network_view_synchronizer") instance=ExtResource("5_3shs6")]
 network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 
-[node name="PlayerClientAuthorityController" parent="." node_paths=PackedStringArray("stats_synchronizer") instance=ExtResource("2_qb1yo")]
+[node name="PlayerClientAuthorityController" parent="." node_paths=PackedStringArray("stats_synchronizer", "ui") instance=ExtResource("2_qb1yo")]
 stats_synchronizer = NodePath("../StatsSynchronizer")
+ui = NodePath("../Head/Camera3D/UI")
 
 [node name="PositionSynchronizer" parent="." node_paths=PackedStringArray("network_view_synchronizer") instance=ExtResource("4_b38xa")]
 network_view_synchronizer = NodePath("../NetworkViewSynchronizer")
 
-[node name="ShootSynchronizer" parent="." node_paths=PackedStringArray("gun", "stats_synchronizer", "barrel_exit", "hit_ray") instance=ExtResource("6_3lq5d")]
+[node name="ShootSynchronizer" parent="." node_paths=PackedStringArray("gun", "stats_synchronizer", "ui", "barrel_exit", "hit_ray") instance=ExtResource("6_3lq5d")]
 gun = NodePath("../Head/Hands/Root/Skeleton3D/Uzi/Uzi")
 stats_synchronizer = NodePath("../StatsSynchronizer")
+ui = NodePath("../Head/Camera3D/UI")
 barrel_exit = NodePath("../Head/BarrelExit")
 hit_ray = NodePath("../Head/HitRayCast3D")
 hit_scan_particle = ExtResource("7_rehey")
