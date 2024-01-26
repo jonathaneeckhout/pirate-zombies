@@ -5,6 +5,12 @@ Greetings, welcome to "Zombie Pirates" - a multiplayer FPS game that offers a un
 
 Embark on this subtle yet engaging journey, where the undead roam and the thrill of the high seas awaits. 
 
+## Play the game
+
+You can play the game on itch.io:
+
+https://jonathaneeckhout.itch.io/pirate-zombies 
+
 ## Controls
 
 The mechanics are elegantly simple: each round spans a brief 5 minutes, and victory belongs to the player with the highest kill count. Maneuver effortlessly with WSAD, fire away with a left-click, gracefully leap with the spacebar, toggle cursor control with Alt, and check scores discreetly with 'H'.
