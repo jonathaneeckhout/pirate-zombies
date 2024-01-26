@@ -10,6 +10,8 @@ The goal of the game is to learn how to create a 3D multiplayer FPS game.
 
 Feel free to use this project as an example for your games but make sure to reference me (Check license: [BSD 2-Clause License](LICENSE)).
 
+If you like the project, give it a star or follow me.
+
 ## Play the game
 
 You can play the game on itch.io:
