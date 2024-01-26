@@ -1,3 +1,5 @@
+![](https://dcbadge.vercel.app/api/shield/581535100852895744)
+
 # Pirate Zobmies
 Greetings, welcome to "Zombie Pirates" - a multiplayer FPS game that offers a unique twist. In this maritime realm, you embody the undead as you navigate through a treasure-laden island, engaging in fierce shootouts with other players.
 
